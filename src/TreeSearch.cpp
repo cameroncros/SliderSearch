@@ -24,7 +24,6 @@ TreeSearch::TreeSearch() {
 }
 
 void TreeSearch::loadFile(char *filename) {
-	int totalvals;
 	int tempval;
 	FILE *fp = fopen(filename, "r");
 	if (fp == NULL) {
@@ -32,15 +31,14 @@ void TreeSearch::loadFile(char *filename) {
 	}
 	fscanf(fp, "%i", &height);
 	fscanf(fp, "%i", &width);
-	totalvals = width*height;
-//	initialState.board = (int **)malloc(height *sizeof(int *));
-//	for (int i=0; i < height; i++) {
-//		initialState.board[i] = (int *)malloc(width*sizeof(int));
-//	}
-//	finalState.board = (int **)malloc(height *sizeof(int *));
-//	for (int i=0; i < height; i++) {
-//		finalState.board[i] = (int *)malloc(width*sizeof(int));
-//	}
+	//	initialState.board = (int **)malloc(height *sizeof(int *));
+	//	for (int i=0; i < height; i++) {
+	//		initialState.board[i] = (int *)malloc(width*sizeof(int));
+	//	}
+	//	finalState.board = (int **)malloc(height *sizeof(int *));
+	//	for (int i=0; i < height; i++) {
+	//		finalState.board[i] = (int *)malloc(width*sizeof(int));
+	//	}
 	initialState.board = new int*[height];
 	for (int i=0; i < height; i++) {
 		initialState.board[i] = new int[width];
@@ -50,15 +48,19 @@ void TreeSearch::loadFile(char *filename) {
 		finalState.board[i] = new int[width];
 	}
 
-	for (int i=0; i < totalvals; i++) {
-		fscanf(fp, "%i;", &tempval);
-		initialState.board[i/width][i%width]=tempval;
-//		printf("%i,%i - %i\n",i/width,i%width, tempval);
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			fscanf(fp, "%i;", &tempval);
+			initialState.board[i][j]=tempval;
+			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
+		}
 	}
-	for (int i=0; i < totalvals; i++) {
-		fscanf(fp, "%i;", &tempval);
-		finalState.board[i/width][i%width]=tempval;
-//		printf("%i,%i - %i\n",i/width,i%width, tempval);
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			fscanf(fp, "%i;", &tempval);
+			finalState.board[i][j]=tempval;
+			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
+		}
 	}
 
 }
@@ -68,7 +70,6 @@ void TreeSearch::loadFile(char *filename) {
  */
 state *TreeSearch::getNextState(const state *parent, move dir) {
 	state *temp = new state;
-	int totalvals = width*height;
 	int row=-1, col=-1;
 
 	temp->parent=parent;
@@ -80,11 +81,13 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	for (int i=0; i < height; i++) {
 		temp->board[i] = new int[width];
 	}
-	for (int i=0; i < totalvals; i++) {
-		temp->board[i/width][i%width]=parent->board[i/width][i%width];
-		if (parent->board[i/width][i%width] == 0) {
-			col=i/width;
-			row=i%width;
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			temp->board[i][j]=parent->board[i][j];
+			if (parent->board[i][j] == 0) {
+				col=j;
+				row=i;
+			}
 		}
 	}
 	if (row==-1 || col == -1) {
@@ -101,7 +104,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		}
 		break;
 	case RIGHT:
-		if (col == height-1) {
+		if (col == width-1) {
 			return NULL;
 		} else {
 			temp->board[row][col]=temp->board[row][col+1];
@@ -117,7 +120,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		}
 		break;
 	case DOWN:
-		if (row == width-1) {
+		if (row == height-1) {
 			return NULL;
 		} else {
 			temp->board[row][col]=temp->board[row+1][col];
@@ -135,8 +138,8 @@ std::string TreeSearch::fingerprintState(state *st) {
 	std::ostringstream fingerprint;
 	int totalvals = width*height;
 	for (int i=0; i < totalvals; i++) {
-			fingerprint << st->board[i/width][i%width] << ";";
-		}
+		fingerprint << st->board[i/width][i%width] << ";";
+	}
 	return fingerprint.str();
 }
 
@@ -147,7 +150,7 @@ void TreeSearch::prettyPrintState(state *st) {
 			std::cout << st->board[i][j] << " ";
 		}
 		std::cout << std::endl;
-			}
+	}
 	std::cout << std::endl << std::endl;
 
 }
