@@ -1,12 +1,15 @@
 #include "main.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
-#include <fstream>
+#include "TreeSearch.h"
+#include "DepthFirstSearch.h"
 
 int main(int argc, char **argv) {
 	searchtype method;
+	TreeSearch *search;
 	if (argc != 3) {
 		printusage(argv[0]);
 	}
@@ -14,9 +17,9 @@ int main(int argc, char **argv) {
 	if (method == INVALID) {
 		printusage(argv[0]);
 	}
-	loadFile(argv[1]);
 	switch (method) {
 	case DFS:
+		search = new DepthFirstSearch(argv[1]);
 		break;
 	case BFS:
 		break;
@@ -31,40 +34,12 @@ int main(int argc, char **argv) {
 	case INVALID:
 		break;
 	}
+	search->run();
+	search->print();
 	return 1;
 }
 
-void loadFile(char *filename) {
-	int totalvals;
-	int tempval;
-	FILE *fp = fopen(filename, "r");
-	if (fp == NULL) {
-		perror("Failed to open file:");
-	}
-	fscanf(fp, "%i", &height);
-	fscanf(fp, "%i", &width);
-	totalvals = width*height;
-	initialState.board = (int **)malloc(height *sizeof(int *));
-	for (int i=0; i < height; i++) {
-		initialState.board[i] = (int *)malloc(width*sizeof(int));
-	}
-	finalState.board = (int **)malloc(height *sizeof(int *));
-	for (int i=0; i < height; i++) {
-		finalState.board[i] = (int *)malloc(width*sizeof(int));
-	}
 
-	for (int i=0; i < totalvals; i++) {
-		fscanf(fp, "%i;", &tempval);
-		initialState.board[i/width][i%width]=tempval;
-		printf("%i,%i - %i\n",i/width,i%width, tempval);
-	}
-	for (int i=0; i < totalvals; i++) {
-		fscanf(fp, "%i;", &tempval);
-		finalState.board[i/width][i%width]=tempval;
-		printf("%i,%i - %i\n",i/width,i%width, tempval);
-	}
-
-}
 
 searchtype getSearchType(char *methodstr) {
 
@@ -118,5 +93,6 @@ void printusage(char *progname) {
 			"CUS2: Informed Search", progname);
 	exit(1);
 }
+
 
 
