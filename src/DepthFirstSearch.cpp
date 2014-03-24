@@ -26,6 +26,7 @@ DepthFirstSearch::~DepthFirstSearch() {
 void DepthFirstSearch::run() {
 	while (foundState == NULL) {
 		state *temp;
+		state *workingState;
 		std::string finger;
 
 
@@ -34,7 +35,7 @@ void DepthFirstSearch::run() {
 		newStates.pop();
 
 
-		prettyPrintState(workingState);
+		//prettyPrintState(workingState);
 		//check if we are at end;
 		finger = fingerprintState(workingState);
 		if (finger.compare(finalFingerprint) == 0) {
@@ -83,7 +84,27 @@ void DepthFirstSearch::run() {
 }
 
 void DepthFirstSearch::print() {
-std::cout << filename << " DFS ";
-//TODO reverse up tree and get the moves in reverse.
-
+	std::cout << filename << " DFS ";
+	std::string moves;
+	int numbernodes = 0;
+	const state *tempState = foundState;
+	while (tempState->parent != NULL) {
+		switch (tempState->mv) {
+		case UP:
+			moves = "UP; " +moves;
+			break;
+		case DOWN:
+			moves = "DOWN; " +moves;
+			break;
+		case LEFT:
+			moves = "LEFT; " +moves;
+			break;
+		case RIGHT:
+			moves = "RIGHT; " +moves;
+			break;
+		}
+		tempState = tempState->parent;
+		numbernodes++;
+	}
+	std::cout << numbernodes << " " << moves << std::endl;
 }

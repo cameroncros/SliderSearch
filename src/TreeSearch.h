@@ -33,8 +33,10 @@ public:
 
 	int width;
 	int height;
+	std::string filename;
 	state initialState;
 	state finalState;
+
 
 	virtual ~TreeSearch();
 	TreeSearch();

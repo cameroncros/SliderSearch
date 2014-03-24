@@ -6,6 +6,7 @@
 #include <iostream>
 #include "TreeSearch.h"
 #include "DepthFirstSearch.h"
+#include "BreadthFirstSearch.h"
 
 int main(int argc, char **argv) {
 	searchtype method;
@@ -22,6 +23,7 @@ int main(int argc, char **argv) {
 		search = new DepthFirstSearch(argv[1]);
 		break;
 	case BFS:
+		search = new BreadthFirstSearch(argv[1]);
 		break;
 	case GBFS:
 		break;
@@ -50,10 +52,10 @@ searchtype getSearchType(char *methodstr) {
 		return DFS;
 	}
 	if (strncmp("BFS", methodstr, 3) == 0) {
-		return DFS;
+		return BFS;
 	}
 	if (strncmp("bfs", methodstr, 3) == 0) {
-		return DFS;
+		return BFS;
 	}
 	if (strncmp("GBFS", methodstr, 4) == 0) {
 		return GBFS;
