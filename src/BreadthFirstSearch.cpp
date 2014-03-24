@@ -61,12 +61,12 @@ void BreadthFirstSearch::run() {
 			allStates.push_back(temp);
 			newStates.push(temp);
 		}
-		temp = getNextState(workingState, DOWN);
+		temp = getNextState(workingState, LEFT);
 		if (temp != NULL) {
 			allStates.push_back(temp);
 			newStates.push(temp);
 		}
-		temp = getNextState(workingState, LEFT);
+		temp = getNextState(workingState, DOWN);
 		if (temp != NULL) {
 			allStates.push_back(temp);
 			newStates.push(temp);
@@ -82,7 +82,7 @@ void BreadthFirstSearch::run() {
 void BreadthFirstSearch::print() {
 	std::cout << filename << " BFS ";
 	std::string moves;
-	int numbernodes = 0;
+	int numbernodes = allStates.size();
 	const state *tempState = foundState;
 	while (tempState->parent != NULL) {
 		switch (tempState->mv) {
@@ -100,7 +100,6 @@ void BreadthFirstSearch::print() {
 			break;
 		}
 		tempState = tempState->parent;
-		numbernodes++;
 	}
 	std::cout << numbernodes << " " << moves << std::endl;
 }

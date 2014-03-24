@@ -55,7 +55,7 @@ void DepthFirstSearch::run() {
 
 
 		//discover possible next states.
-		temp = getNextState(workingState, UP);
+		temp = getNextState(workingState, RIGHT);
 		if (temp != NULL) {
 			allStates.push_back(temp);
 			newStates.push(temp);
@@ -70,7 +70,7 @@ void DepthFirstSearch::run() {
 			allStates.push_back(temp);
 			newStates.push(temp);
 		}
-		temp = getNextState(workingState, RIGHT);
+		temp = getNextState(workingState, UP);
 		if (temp != NULL) {
 			allStates.push_back(temp);
 			newStates.push(temp);
@@ -86,7 +86,7 @@ void DepthFirstSearch::run() {
 void DepthFirstSearch::print() {
 	std::cout << filename << " DFS ";
 	std::string moves;
-	int numbernodes = 0;
+	int numbernodes = allStates.size();
 	const state *tempState = foundState;
 	while (tempState->parent != NULL) {
 		switch (tempState->mv) {
@@ -104,7 +104,6 @@ void DepthFirstSearch::print() {
 			break;
 		}
 		tempState = tempState->parent;
-		numbernodes++;
 	}
 	std::cout << numbernodes << " " << moves << std::endl;
 }
