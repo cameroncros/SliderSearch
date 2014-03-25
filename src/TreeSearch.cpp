@@ -39,26 +39,28 @@ void TreeSearch::loadFile(char *filename) {
 	//	for (int i=0; i < height; i++) {
 	//		finalState.board[i] = (int *)malloc(width*sizeof(int));
 	//	}
-	initialState.board = new int*[height];
+	initialState = new state;
+	initialState->board = new int*[height];
 	for (int i=0; i < height; i++) {
-		initialState.board[i] = new int[width];
+		initialState->board[i] = new int[width];
 	}
-	finalState.board = new int*[height];
+	finalState = new state;
+	finalState->board = new int*[height];
 	for (int i=0; i < height; i++) {
-		finalState.board[i] = new int[width];
+		finalState->board[i] = new int[width];
 	}
 
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			fscanf(fp, "%i;", &tempval);
-			initialState.board[i][j]=tempval;
+			initialState->board[i][j]=tempval;
 			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
 		}
 	}
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			fscanf(fp, "%i;", &tempval);
-			finalState.board[i][j]=tempval;
+			finalState->board[i][j]=tempval;
 			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
 		}
 	}
@@ -143,7 +145,7 @@ std::string TreeSearch::fingerprintState(state *st) {
 	return fingerprint.str();
 }
 
-void TreeSearch::prettyPrintState(state *st) {
+void TreeSearch::prettyPrintState(const state *st) {
 	std::cout << "Move: " << st->mv << std::endl;
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
@@ -153,4 +155,42 @@ void TreeSearch::prettyPrintState(state *st) {
 	}
 	std::cout << std::endl << std::endl;
 
+}
+
+void TreeSearch::deleteState(state* st) {
+	if (st->board != NULL) {
+		for (int i=0; i < height; i++) {
+			delete(st->board[i]);
+		}
+		delete(st->board);
+	}
+	delete(st);
+}
+
+
+/**
+ * This function ranks a state on the distance between the tiles in each state 0 is perfect
+ */
+double TreeSearch::rateState(const state* given, const state* baseline) {
+	int tempValue; //value of the position we are searching for
+	float sumDistances=0;
+
+	for (int xpos1 = 0; xpos1 < height; xpos1++) { //xposition of the value we are looking for
+		for (int ypos1 = 0; ypos1 < width; ypos1++) { //yposition of the value we are looking for
+			tempValue=given->board[xpos1][ypos1];
+			for (int xpos2 = 0; xpos2 < height; xpos2++) { //xposition that the value is found at
+				for (int ypos2 = 0; ypos2 < width; ypos2++) { //yposition that the value is found at
+					if (baseline->board[xpos2][ypos2] == tempValue) {
+						sumDistances += (((xpos1-xpos2)*(xpos1-xpos2))+((ypos1-ypos2)*(ypos1-ypos2))); //sqrt is expensive, dont bother as it doesnt affect the number meaningfully anyway
+						goto jump; //not happy about this, but it is a fairly short jump and probably clearer as a goto than a seperate function+return
+					}				//	 |
+				}					//	 |
+			}						//	 |
+			jump:;					// <-|
+		}
+	}
+	prettyPrintState(given);
+	prettyPrintState(baseline);
+	std::cout << sumDistances <<std::endl;
+	return sumDistances;
 }

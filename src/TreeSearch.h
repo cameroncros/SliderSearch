@@ -34,8 +34,8 @@ public:
 	int width;
 	int height;
 	std::string filename;
-	state initialState;
-	state finalState;
+	state *initialState;
+	state *finalState;
 
 
 	virtual ~TreeSearch();
@@ -46,7 +46,9 @@ public:
 	void loadFile(char *filename);
 	state *getNextState(const state *parent, move dir);
 	std::string fingerprintState(state *st);
-	void prettyPrintState(state *st);
+	void prettyPrintState(const state *st);
+	void deleteState(state *st);
+	double rateState(const state* given, const state* baseline);
 };
 
 #endif /* TREESEARCH_H_ */
