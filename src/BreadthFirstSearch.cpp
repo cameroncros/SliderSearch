@@ -12,9 +12,9 @@
 BreadthFirstSearch::BreadthFirstSearch(char *fname) {
 	filename = fname;
 	loadFile(fname);
-	finalFingerprint = fingerprintState(&finalState);
+	finalFingerprint = fingerprintState(finalState);
 	foundState = NULL;
-	newStates.push(&initialState);
+	newStates.push(initialState);
 	// TODO Auto-generated constructor stub
 
 }
