@@ -38,6 +38,7 @@ int main(int argc, char **argv) {
 	}
 	search->run();
 	search->print();
+	delete(search);
 	return 1;
 }
 
