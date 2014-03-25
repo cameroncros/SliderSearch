@@ -7,6 +7,7 @@
 #include "TreeSearch.h"
 #include "DepthFirstSearch.h"
 #include "BreadthFirstSearch.h"
+#include "GreedyBestFirstSearch.h"
 
 int main(int argc, char **argv) {
 	searchtype method;
@@ -26,6 +27,7 @@ int main(int argc, char **argv) {
 		search = new BreadthFirstSearch(argv[1]);
 		break;
 	case GBFS:
+		search = new GreedyBestFirstSearch(argv[1]);
 		break;
 	case AS:
 		break;

@@ -48,7 +48,7 @@ public:
 	std::string fingerprintState(state *st);
 	void prettyPrintState(const state *st);
 	void deleteState(state *st);
-	double rateState(const state* given, const state* baseline);
+	int rateState(const state* given, const state* baseline);
 };
 
 #endif /* TREESEARCH_H_ */

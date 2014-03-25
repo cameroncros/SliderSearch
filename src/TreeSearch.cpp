@@ -171,9 +171,9 @@ void TreeSearch::deleteState(state* st) {
 /**
  * This function ranks a state on the distance between the tiles in each state 0 is perfect
  */
-double TreeSearch::rateState(const state* given, const state* baseline) {
+int TreeSearch::rateState(const state* given, const state* baseline) {
 	int tempValue; //value of the position we are searching for
-	float sumDistances=0;
+	int sumDistances=0;
 
 	for (int xpos1 = 0; xpos1 < height; xpos1++) { //xposition of the value we are looking for
 		for (int ypos1 = 0; ypos1 < width; ypos1++) { //yposition of the value we are looking for
