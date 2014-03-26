@@ -9,10 +9,12 @@
 #include "BreadthFirstSearch.h"
 #include "GreedyBestFirstSearch.h"
 
+#include "BoardGenerator.h"
+
 int main(int argc, char **argv) {
 	searchtype method;
 	TreeSearch *search;
-	if (argc != 3) {
+	if (!(argc == 3 || argc == 6)) {
 		printusage(argv[0]);
 	}
 	method = getSearchType(argv[2]);
@@ -36,6 +38,9 @@ int main(int argc, char **argv) {
 	case CUS2:
 		break;
 	case INVALID:
+		break;
+	case GEN:
+		search = new BoardGenerator(argv[1], argv[3], argv[4], argv[5]);
 		break;
 	}
 	search->run();
@@ -84,18 +89,26 @@ searchtype getSearchType(char *methodstr) {
 	if (strncmp("cus2", methodstr, 4) == 0) {
 		return CUS2;
 	}
+	if (strncmp("GEN", methodstr, 4) == 0) {
+		return GEN;
+	}
+	if (strncmp("gen", methodstr, 4) == 0) {
+		return GEN;
+	}
 	return INVALID;
 }
 
 void printusage(char *progname) {
 	printf("Usage: %s [filename] [method]\n"
+			"       %s [filename] GEN [width] [height] [numberOfMoves]\n"
 			"Methods:\n"
 			"DFS: Depth First Search\n"
 			"BFS: Breadth First Search\n"
 			"GBFS:\n"
 			"AS:\n"
 			"CUS1: Uninformed Search\n"
-			"CUS2: Informed Search", progname);
+			"CUS2: Informed Search\n\n"
+			"GEN: Generate a random puzzle with maximum solution of [numberOfMoves]", progname, progname);
 	exit(1);
 }
 

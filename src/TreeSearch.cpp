@@ -17,6 +17,8 @@ TreeSearch::~TreeSearch() {
 }
 
 TreeSearch::TreeSearch() {
+	initialState=NULL;
+	finalState=NULL;
 	width=-1;
 	height=-1;
 	// TODO Auto-generated constructor stub
