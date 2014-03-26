@@ -207,7 +207,7 @@ int TreeSearch::rateState(const state* given, const state* baseline) {
 	for (int xpos1 = 0; xpos1 < height; xpos1++) { //xposition of the value we are looking for
 		for (int ypos1 = 0; ypos1 < width; ypos1++) { //yposition of the value we are looking for
 			tempValue=given->board[xpos1][ypos1];
-			if (tempValue == 0) {
+			if (tempValue == 0) { //distance to zero not really useful, but I havent tested either way. Probably a fairly consistent scaling factor
 				continue;
 			}
 			for (int xpos2 = 0; xpos2 < height; xpos2++) { //xposition that the value is found at
