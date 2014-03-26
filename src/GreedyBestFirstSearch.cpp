@@ -32,16 +32,25 @@ void GreedyBestFirstSearch::run() {
 
 		//get next state to test
 		int best = std::numeric_limits<int>::max();
-		std::vector<state *>::iterator bestIterator;
+		std::map<move, std::vector<state *>::iterator> tempMap;
+		std::map<move, std::vector<state *>::iterator>::iterator bestIterator;
 		for (std::vector<state *>::iterator i = newStates.begin(); i != newStates.end(); i++) {
 			if ((*i)->cost < best) {
 				best = (*i)->cost;
-				bestIterator=i;
+				tempMap.clear();
+				tempMap.insert(std::pair<move, std::vector<state *>::iterator>((*i)->mv, i));
+			}
+			if ((*i)->cost == best) {
+				tempMap.insert(std::pair<move, std::vector<state *>::iterator>((*i)->mv, i));
 			}
 		}
+		if ((bestIterator = tempMap.find(UP)) != tempMap.end()) {}
+		else if ((bestIterator = tempMap.find(LEFT)) != tempMap.end()) {}
+		else if ((bestIterator = tempMap.find(DOWN)) != tempMap.end()) {}
+		else if ((bestIterator = tempMap.find(RIGHT)) != tempMap.end()) {}
 
-		workingState = *bestIterator;
-		newStates.erase(bestIterator);
+		workingState = *bestIterator->second;
+		newStates.erase(bestIterator->second);
 
 		//prettyPrintState(workingState);
 		//check if we are at end;
