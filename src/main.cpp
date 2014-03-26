@@ -8,6 +8,7 @@
 #include "DepthFirstSearch.h"
 #include "BreadthFirstSearch.h"
 #include "GreedyBestFirstSearch.h"
+#include "AStarSearch.h"
 
 #include "BoardGenerator.h"
 
@@ -32,6 +33,7 @@ int main(int argc, char **argv) {
 		search = new GreedyBestFirstSearch(argv[1]);
 		break;
 	case AS:
+		search = new AStarSearch(argv[1]);
 		break;
 	case CUS1:
 		break;
