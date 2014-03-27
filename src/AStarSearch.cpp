@@ -12,7 +12,6 @@
 AStarSearch::AStarSearch(char *fname) {
 	filename = fname;
 	loadFile(fname);
-	finalFingerprint = fingerprintState(finalState);
 	foundState = NULL;
 	newStates.push_back(initialState);
 	// TODO Auto-generated constructor stub
@@ -24,25 +23,32 @@ AStarSearch::~AStarSearch() {
 }
 
 void AStarSearch::run() {
+	state *temp;
+	state *workingState;
+	std::string finger;
+
+	int best;
+	std::map<move, std::vector<state *>::iterator> tempMap;
+	std::map<move, std::vector<state *>::iterator>::iterator bestIterator;
 	while (foundState == NULL) {
-		state *temp;
-		state *workingState;
-		std::string finger;
+
 
 
 		//get next state to test
-		int best = std::numeric_limits<int>::max();
-		std::map<move, std::vector<state *>::iterator> tempMap;
-		std::map<move, std::vector<state *>::iterator>::iterator bestIterator;
+		tempMap.clear();
+		best = std::numeric_limits<int>::max();
 		for (std::vector<state *>::iterator i = newStates.begin(); i != newStates.end(); i++) {
 			if ((*i)->cost+(*i)->depth < best) {
 				best = (*i)->cost;
 				tempMap.clear();
 				tempMap.insert(std::pair<move, std::vector<state *>::iterator>((*i)->mv, i));
-			}
-			if ((*i)->cost == best) {
+			} else if ((*i)->cost == best) {
 				tempMap.insert(std::pair<move, std::vector<state *>::iterator>((*i)->mv, i));
 			}
+		}
+		//check if we have run out of moves
+		if (tempMap.size() == 0) {
+			return;
 		}
 		if ((bestIterator = tempMap.find(UP)) != tempMap.end()) {}
 		else if ((bestIterator = tempMap.find(LEFT)) != tempMap.end()) {}
@@ -52,21 +58,23 @@ void AStarSearch::run() {
 		workingState = *bestIterator->second;
 		newStates.erase(bestIterator->second);
 
-		//prettyPrintState(workingState);
 		//check if we are at end;
-		finger = fingerprintState(workingState);
-		if (finger.compare(finalFingerprint) == 0) {
+		if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
 			foundState = workingState;
 			continue;
 		}
-		//check if current state exists in list
-		if (discoveredStates.find(finger) == discoveredStates.end()) {
-			//TODO: does dfs check for optimal route? ie, if depth is greater at this step that the step that was found, should I ignore the previous step?
-			//TODO: I will just skip for now until I have a better understanding or if it impacts preformance.
 
-			//add self to discovered states so it is not looped over again.
-			discoveredStates.insert(std::pair<std::string, state*>(finger, workingState));
-		} else {
+		//check if current state exists in history
+		bool duplicate = false;
+		const state *tempState = workingState;
+		while (tempState->parent != NULL) {
+			tempState = tempState->parent;
+			if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
+				duplicate = true;
+				break;
+			}
+		}
+		if (duplicate == true) {
 			continue;
 		}
 
@@ -105,26 +113,5 @@ void AStarSearch::run() {
 }
 
 void AStarSearch::print() {
-	std::cout << filename << " AS ";
-	std::string moves;
-	int numbernodes = allStates.size();
-	const state *tempState = foundState;
-	while (tempState->parent != NULL) {
-		switch (tempState->mv) {
-		case UP:
-			moves = "UP; " +moves;
-			break;
-		case DOWN:
-			moves = "DOWN; " +moves;
-			break;
-		case LEFT:
-			moves = "LEFT; " +moves;
-			break;
-		case RIGHT:
-			moves = "RIGHT; " +moves;
-			break;
-		}
-		tempState = tempState->parent;
-	}
-	std::cout << numbernodes << " " << moves << std::endl;
+	TreeSearch::print("AS");
 }
