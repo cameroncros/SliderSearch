@@ -18,8 +18,6 @@
 class BoardGenerator: public TreeSearch {
 private:
 	int numMoves;
-	std::string initialFingerPrint;
-	std::string finalFingerPrint;
 public:
 	BoardGenerator(char *filename, char* width, char* height, char* numberOfMoves);
 	virtual ~BoardGenerator();

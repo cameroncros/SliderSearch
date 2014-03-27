@@ -31,7 +31,6 @@ BoardGenerator::BoardGenerator(char* fname, char* w, char* h,
 	initialState->cost=0;
 	initialState->depth=0;
 	initialState->parent=NULL;
-	initialFingerPrint = fingerprintState(initialState);
 
 
 }
@@ -67,7 +66,6 @@ void BoardGenerator::run() {
 		currentState=nextState;
 		nextState=NULL;
 	}
-	finalFingerPrint = fingerprintState(currentState);
 	deleteState(currentState);
 
 }
@@ -76,6 +74,6 @@ void BoardGenerator::run() {
 void BoardGenerator::print() {
 	std::cout << width << std::endl
 			<< height << std::endl
-			<< initialFingerPrint <<std::endl
-			<< finalFingerPrint << std::endl;
+			<< initialState->fingerprint <<std::endl
+			<< finalState->fingerprint << std::endl;
 }
