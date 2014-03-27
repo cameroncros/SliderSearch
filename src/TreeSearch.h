@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include <string>
+#include <vector>
 
 enum move {
 	UP,
@@ -24,28 +25,32 @@ struct state {
 	int **board;
 	const state *parent;
 	move mv;
+	std::string fingerprint;
 };
 
 class TreeSearch {
 
+private:
+	std::string fingerprintState(state *st);
+
 public:
-
-
 	int width;
 	int height;
 	std::string filename;
 	state *initialState;
 	state *finalState;
-
+	std::vector<state*> allStates; //used to keep track of all the new states so that they can be freed correctly.
+	state *foundState;
 
 	virtual ~TreeSearch();
 	TreeSearch();
 	virtual void run()=0;
 	virtual void print()=0;
+	void print(const char *str);
 
 	void loadFile(char *filename);
 	state *getNextState(const state *parent, move dir);
-	std::string fingerprintState(state *st);
+
 	void prettyPrintState(const state *st);
 	void deleteState(state *st);
 	int rateState(const state* given, const state* baseline);

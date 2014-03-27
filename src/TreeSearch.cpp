@@ -19,6 +19,7 @@ TreeSearch::~TreeSearch() {
 TreeSearch::TreeSearch() {
 	initialState=NULL;
 	finalState=NULL;
+	foundState=NULL;
 	width=-1;
 	height=-1;
 	// TODO Auto-generated constructor stub
@@ -66,6 +67,8 @@ void TreeSearch::loadFile(char *filename) {
 			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
 		}
 	}
+	initialState->fingerprint=fingerprintState(initialState);
+	finalState->fingerprint=fingerprintState(finalState);
 
 }
 
@@ -132,6 +135,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		}
 		break;
 	}
+	temp->fingerprint=fingerprintState(temp);
 	return temp;
 }
 
@@ -220,4 +224,34 @@ int TreeSearch::rateState(const state* given, const state* baseline) {
 		}
 	}
 	return sumDistances;
+}
+
+void TreeSearch::print(const char *str) {
+	std::cout << filename << " " << str << " ";
+	std::string moves;
+	int numbernodes = allStates.size();
+	if (foundState != NULL) {
+		const state *tempState = foundState;
+
+		while (tempState->parent != NULL) {
+			switch (tempState->mv) {
+			case UP:
+				moves = "UP; " +moves;
+				break;
+			case DOWN:
+				moves = "DOWN; " +moves;
+				break;
+			case LEFT:
+				moves = "LEFT; " +moves;
+				break;
+			case RIGHT:
+				moves = "RIGHT; " +moves;
+				break;
+			}
+			tempState = tempState->parent;
+		}
+	} else {
+		moves = "Failed to find path";
+	}
+	std::cout << numbernodes << " " << moves << std::endl;
 }
