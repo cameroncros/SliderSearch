@@ -43,11 +43,22 @@ void TreeSearch::loadFile(char *filename) {
 	//		finalState.board[i] = (int *)malloc(width*sizeof(int));
 	//	}
 	initialState = new state;
+	initialState->cost=0;
+	initialState->depth=0;
+	initialState->fingerprint="";
+	initialState->mv=NOMV;
+	initialState->parent=NULL;
+
 	initialState->board = new int*[height];
 	for (int i=0; i < height; i++) {
 		initialState->board[i] = new int[width];
 	}
 	finalState = new state;
+	finalState->cost=0;
+	finalState->depth=0;
+	finalState->fingerprint="";
+	finalState->mv=NOMV;
+	finalState->parent=NULL;
 	finalState->board = new int*[height];
 	for (int i=0; i < height; i++) {
 		finalState->board[i] = new int[width];
@@ -104,6 +115,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	switch (dir) {
 	case LEFT:
 		if (col == 0) {
+			deleteState(temp);
 			return NULL;
 		} else {
 			temp->board[row][col]=temp->board[row][col-1];
@@ -112,6 +124,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		break;
 	case RIGHT:
 		if (col == width-1) {
+			deleteState(temp);
 			return NULL;
 		} else {
 			temp->board[row][col]=temp->board[row][col+1];
@@ -120,6 +133,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		break;
 	case UP:
 		if (row == 0) {
+			deleteState(temp);
 			return NULL;
 		} else {
 			temp->board[row][col]=temp->board[row-1][col];
@@ -128,12 +142,15 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		break;
 	case DOWN:
 		if (row == height-1) {
+			deleteState(temp);
 			return NULL;
 		} else {
 			temp->board[row][col]=temp->board[row+1][col];
 			temp->board[row+1][col]=0;
 		}
 		break;
+	case NOMV:
+		break; //shouldnt happen, this code juyst prevents the compiler warning
 	}
 	temp->fingerprint=fingerprintState(temp);
 	return temp;
@@ -247,6 +264,8 @@ void TreeSearch::print(const char *str) {
 			case RIGHT:
 				moves = "RIGHT; " +moves;
 				break;
+			case NOMV:
+				break; //shouldnt happen, this code juyst prevents the compiler warning
 			}
 			tempState = tempState->parent;
 		}

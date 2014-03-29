@@ -16,7 +16,8 @@ enum move {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	NOMV
 };
 
 struct state {
