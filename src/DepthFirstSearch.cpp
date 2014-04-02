@@ -23,15 +23,20 @@ DepthFirstSearch::~DepthFirstSearch() {
 
 
 void DepthFirstSearch::run() {
+	state *temp;
+	state *workingState;
+
 	while (foundState == NULL) {
-		state *temp;
-		state *workingState;
-		std::string finger;
+
 
 
 		//get next state to test
-		workingState = newStates.top();
-		newStates.pop();
+		if (newStates.size()!=0) {
+			workingState = newStates.top();
+			newStates.pop();
+		} else {
+			return;
+		}
 
 
 		//check if we are at end;
@@ -41,17 +46,27 @@ void DepthFirstSearch::run() {
 		}
 
 		//check if current state exists in history
-		bool duplicate = false;
-		const state *tempState = workingState;
-		while (tempState->parent != NULL) {
-			tempState = tempState->parent;
-			if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
-				duplicate = true;
-				break;
-			}
-		}
-		if (duplicate == true) {
+		//		bool duplicate = false;
+		//		const state *tempState = workingState;
+		//		while (tempState->parent != NULL) {
+		//			tempState = tempState->parent;
+		//			if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
+		//				duplicate = true;
+		//				break;
+		//			}
+		//		}
+		//		if (duplicate == true) {
+		//			continue;
+		//		}
+		std::map<std::string, state* >::iterator past = discoveredStates.find(workingState->fingerprint);
+
+		if (past != discoveredStates.end() && (*past).second->depth < workingState->depth) {
+			//this state has occured before with less cost, it is not certain that this is in the same tree,
+			//but it is faster than recursing up a huge tree comparing fingerprints
 			continue;
+		} else {
+			discoveredStates.insert(std::pair<std::string, state*>(workingState->fingerprint, workingState));
+
 		}
 
 
