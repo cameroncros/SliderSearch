@@ -90,11 +90,6 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	state *temp = new state;
 	int row=-1, col=-1;
 
-	temp->parent=parent;
-	temp->depth=parent->depth+1;
-	temp->cost=rateState(temp, finalState);
-	temp->mv=dir;
-
 	temp->board = new int*[height];
 	for (int i=0; i < height; i++) {
 		temp->board[i] = new int[width];
@@ -152,6 +147,10 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	case NOMV:
 		break; //shouldnt happen, this code juyst prevents the compiler warning
 	}
+	temp->parent=parent;
+	temp->depth=parent->depth+1;
+	temp->mv=dir;
+	temp->cost=rateState(temp, finalState);
 	temp->fingerprint=fingerprintState(temp);
 	return temp;
 }
