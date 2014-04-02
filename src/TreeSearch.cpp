@@ -92,7 +92,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 
 	temp->parent=parent;
 	temp->depth=parent->depth+1;
-	temp->cost=parent->cost+1;
+	temp->cost=rateState(temp, finalState);
 	temp->mv=dir;
 
 	temp->board = new int*[height];
