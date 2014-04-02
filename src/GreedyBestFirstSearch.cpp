@@ -23,6 +23,7 @@ GreedyBestFirstSearch::~GreedyBestFirstSearch() {
 }
 
 void GreedyBestFirstSearch::run() {
+	int bestIterator;
 	while (foundState == NULL) {
 		state *temp;
 		state *workingState;
@@ -30,26 +31,21 @@ void GreedyBestFirstSearch::run() {
 
 
 		//get next state to test
+		int depth = newStates[newStates.size()-1]->depth;
 		int best = std::numeric_limits<int>::max();
-		std::map<move, std::vector<state *>::iterator> tempMap;
-		std::map<move, std::vector<state *>::iterator>::iterator bestIterator;
-		for (std::vector<state *>::iterator i = newStates.begin(); i != newStates.end(); i++) {
-			if ((*i)->cost < best) {
-				best = (*i)->cost;
-				tempMap.clear();
-				tempMap.insert(std::pair<move, std::vector<state *>::iterator>((*i)->mv, i));
+		for (int i = newStates.size()-1; i >= 0; i--) {
+			if (newStates[i]->depth != depth) {
+				break;
 			}
-			else if ((*i)->cost == best) {
-				tempMap.insert(std::pair<move, std::vector<state *>::iterator>((*i)->mv, i));
+			if (newStates[i]->cost <= best) {
+				best = newStates[i]->cost;
+				bestIterator = i;
 			}
-		}
-		if ((bestIterator = tempMap.find(UP)) != tempMap.end()) {}
-		else if ((bestIterator = tempMap.find(LEFT)) != tempMap.end()) {}
-		else if ((bestIterator = tempMap.find(DOWN)) != tempMap.end()) {}
-		else if ((bestIterator = tempMap.find(RIGHT)) != tempMap.end()) {}
 
-		workingState = *bestIterator->second;
-		newStates.erase(bestIterator->second);
+		}
+
+		workingState = newStates[bestIterator];
+		newStates.erase(newStates.begin()+bestIterator);
 
 		//check if we are at end;
 		if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
@@ -57,47 +53,39 @@ void GreedyBestFirstSearch::run() {
 			continue;
 		}
 
-		//check if current state exists in history
-		bool duplicate = false;
-		const state *tempState = workingState;
-		while (tempState->parent != NULL) {
-			tempState = tempState->parent;
-			if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
-				duplicate = true;
-				break;
-			}
-		}
-		if (duplicate == true) {
-			continue;
-		}
+		//check if state has been seen before
+		std::map<std::string, state* >::iterator past = discoveredStates.find(workingState->fingerprint);
+
+				if (past != discoveredStates.end() && (*past).second->depth < workingState->depth) {
+					//this state has occured before with less cost, it is not certain that this is in the same tree,
+					//but it is faster than recursing up a huge tree comparing fingerprints
+					continue;
+				} else {
+					discoveredStates.insert(std::pair<std::string, state*>(workingState->fingerprint, workingState));
+				}
 
 
 		//discover possible next states.
 		temp = getNextState(workingState, RIGHT);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, DOWN);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, LEFT);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, UP);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
-
 
 
 

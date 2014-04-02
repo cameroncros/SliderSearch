@@ -9,13 +9,14 @@
 #define GREEDYBESTFIRSTSEARCH_H_
 
 #include "TreeSearch.h"
-#include <vector>
+#include <deque>
 #include <map>
 #include <string>
 
 class GreedyBestFirstSearch: public TreeSearch {
 private:
-	std::vector<state*> newStates; //used to list all the new states so that they can be iterated correctly.
+	std::deque<state*> newStates; //used to list all the new states so that they can be iterated correctly.
+	std::map<std::string, state*> discoveredStates; //used to check if we have hit this state before.
 public:
 	GreedyBestFirstSearch(char *fname);
 	virtual ~GreedyBestFirstSearch();
