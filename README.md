@@ -4,11 +4,14 @@ SliderSearch
 Cameron Cross 7193432 AI Assignment 1
 
 Features:
+- GEN option to generate a board
 
 Bugs:
 
-- Never attempts to clean up memory, program is run once and I assume that the OS should reclaim all memory.
-- Depth First Search: Wastes huge amounts of memory and CPU and gives rediculous results.
+- DFS and GBFS dont correctly check for states in its history, 
+  only that the state has been seen before with a lower cost.
+  This is faster and nearly the same thing.
+- 
 
 Missing:
 
