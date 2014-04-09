@@ -25,6 +25,8 @@ public:
 	virtual ~DepthFirstSearch();
 	void run();
 	void print();
+
+	bool evaluateState(state *workingState);
 };
 
 #endif /* DEPTHFIRSTSEARCH_H_ */
