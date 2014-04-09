@@ -13,6 +13,7 @@ DepthFirstSearch::DepthFirstSearch(char *fname) {
 	loadFile(fname);
 	foundState = NULL;
 	newStates.push(initialState);
+	depthLimit = (width+height)*(width+height);
 	// TODO Auto-generated constructor stub
 
 }
@@ -42,6 +43,11 @@ void DepthFirstSearch::run() {
 		//check if we are at end;
 		if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
 			foundState = workingState;
+			continue;
+		}
+
+		//check if we are getting too deep
+		if (workingState->depth > depthLimit) {
 			continue;
 		}
 
