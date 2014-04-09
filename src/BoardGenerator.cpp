@@ -19,9 +19,9 @@ BoardGenerator::BoardGenerator(char* fname, char* w, char* h,
 	filename = fname;
 	initialState = new state;
 
-	initialState->board = new int*[height];
+	initialState->board = new char*[height];
 	for (int i=0; i < height; i++) {
-		initialState->board[i] = new int[width];
+		initialState->board[i] = new char[width];
 	}
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {

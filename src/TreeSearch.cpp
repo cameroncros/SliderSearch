@@ -49,9 +49,9 @@ void TreeSearch::loadFile(char *filename) {
 	initialState->mv=NOMV;
 	initialState->parent=NULL;
 
-	initialState->board = new int*[height];
+	initialState->board = new char*[height];
 	for (int i=0; i < height; i++) {
-		initialState->board[i] = new int[width];
+		initialState->board[i] = new char[width];
 	}
 	finalState = new state;
 	finalState->cost=0;
@@ -59,9 +59,9 @@ void TreeSearch::loadFile(char *filename) {
 	finalState->fingerprint="";
 	finalState->mv=NOMV;
 	finalState->parent=NULL;
-	finalState->board = new int*[height];
+	finalState->board = new char*[height];
 	for (int i=0; i < height; i++) {
-		finalState->board[i] = new int[width];
+		finalState->board[i] = new char[width];
 	}
 
 	for (int i = 0; i < height; i++) {
@@ -90,9 +90,9 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	state *temp = new state;
 	int row=-1, col=-1;
 
-	temp->board = new int*[height];
+	temp->board = new char*[height];
 	for (int i=0; i < height; i++) {
-		temp->board[i] = new int[width];
+		temp->board[i] = new char[width];
 	}
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {

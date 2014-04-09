@@ -21,9 +21,9 @@ enum move {
 };
 
 struct state {
-	int cost;
-	int depth;
-	int **board;
+	char cost;
+	char depth;
+	char **board;
 	const state *parent;
 	move mv;
 	std::string fingerprint;
