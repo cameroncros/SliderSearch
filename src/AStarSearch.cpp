@@ -96,5 +96,5 @@ void AStarSearch::run() {
 }
 
 void AStarSearch::print() {
-	TreeSearch::print("AS");
+	TreeSearch::print("AS", allStates.size());
 }

@@ -180,6 +180,9 @@ void TreeSearch::prettyPrintState(const state *st) {
 }
 
 void TreeSearch::deleteState(state* st) {
+	if (st == NULL) {
+		return;
+	}
 	if (st->board != NULL) {
 		for (int i=0; i < height; i++) {
 			delete(st->board[i]);
@@ -242,10 +245,9 @@ int TreeSearch::rateState(const state* given, const state* baseline) {
 	return sumDistances;
 }
 
-void TreeSearch::print(const char *str) {
+void TreeSearch::print(const char *str, int numbernodes) {
 	std::cout << filename << " " << str << " ";
 	std::string moves;
-	int numbernodes = allStates.size();
 	if (foundState != NULL) {
 		const state *tempState = foundState;
 

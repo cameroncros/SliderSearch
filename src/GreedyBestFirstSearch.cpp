@@ -94,5 +94,5 @@ void GreedyBestFirstSearch::run() {
 }
 
 void GreedyBestFirstSearch::print() {
-	TreeSearch::print("GBFS");
+	TreeSearch::print("GBFS", allStates.size());
 }

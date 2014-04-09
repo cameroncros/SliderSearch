@@ -47,7 +47,7 @@ public:
 	TreeSearch();
 	virtual void run()=0;
 	virtual void print()=0;
-	void print(const char *str);
+	void print(const char *str, int numbernodes);
 
 	void loadFile(char *filename);
 	state *getNextState(const state *parent, move dir);

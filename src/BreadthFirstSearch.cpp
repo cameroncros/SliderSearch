@@ -81,5 +81,5 @@ void BreadthFirstSearch::run() {
 }
 
 void BreadthFirstSearch::print() {
-	TreeSearch::print("BFS");
+	TreeSearch::print("BFS", allStates.size());
 }
