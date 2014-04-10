@@ -8,7 +8,8 @@
 #include "DepthFirstSearch.h"
 #include "BreadthFirstSearch.h"
 #include "GreedyBestFirstSearch.h"
-#include "CustomUniformedDepthSearch.h"
+#include "CustomUninformedDepthSearch.h"
+#include "CustomInformedSearch.h"
 #include "AStarSearch.h"
 
 #include "BoardGenerator.h"
@@ -37,9 +38,10 @@ int main(int argc, char **argv) {
 		search = new AStarSearch(argv[1]);
 		break;
 	case CUS1:
-		search = new CustomUniformedDepthSearch(argv[1]);
+		search = new CustomUninformedDepthSearch(argv[1]);
 		break;
 	case CUS2:
+		search = new CustomInformedSearch(argv[1]);
 		break;
 	case INVALID:
 		break;
