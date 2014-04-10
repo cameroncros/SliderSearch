@@ -4,6 +4,7 @@
  *  Created on: 22/03/2014
  *      Author: cameron
  */
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "TreeSearch.h"
 #include <stdio.h>
@@ -32,18 +33,12 @@ void TreeSearch::loadFile(char *filename) {
 	int tempval;
 	FILE *fp = fopen(filename, "r");
 	if (fp == NULL) {
+		exit(0);
 		perror("Failed to open file:");
 	}
 	fscanf(fp, "%i", &height);
 	fscanf(fp, "%i", &width);
-	//	initialState.board = (int **)malloc(height *sizeof(int *));
-	//	for (int i=0; i < height; i++) {
-	//		initialState.board[i] = (int *)malloc(width*sizeof(int));
-	//	}
-	//	finalState.board = (int **)malloc(height *sizeof(int *));
-	//	for (int i=0; i < height; i++) {
-	//		finalState.board[i] = (int *)malloc(width*sizeof(int));
-	//	}
+
 	initialState = new state;
 	initialState->cost=0;
 	initialState->depth=0;
