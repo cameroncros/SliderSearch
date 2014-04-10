@@ -8,13 +8,14 @@
 #include "DepthFirstSearch.h"
 #include "BreadthFirstSearch.h"
 #include "GreedyBestFirstSearch.h"
+#include "CustomUniformedDepthSearch.h"
 #include "AStarSearch.h"
 
 #include "BoardGenerator.h"
 
 int main(int argc, char **argv) {
 	searchtype method;
-	TreeSearch *search;
+	TreeSearch *search = NULL;
 	if (!(argc == 3 || argc == 6)) {
 		printusage(argv[0]);
 	}
@@ -36,6 +37,7 @@ int main(int argc, char **argv) {
 		search = new AStarSearch(argv[1]);
 		break;
 	case CUS1:
+		search = new CustomUniformedDepthSearch(argv[1]);
 		break;
 	case CUS2:
 		break;
@@ -45,9 +47,14 @@ int main(int argc, char **argv) {
 		search = new BoardGenerator(argv[1], argv[3], argv[4], argv[5]);
 		break;
 	}
-	search->run();
-	search->print();
-	delete(search);
+	if (search != NULL) {
+		search->run();
+		search->print();
+		delete(search);
+	}
+	else {
+		printusage(argv[0]);
+	}
 	return 1;
 }
 
