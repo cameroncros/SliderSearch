@@ -4,6 +4,7 @@
  *  Created on: Mar 26, 2014
  *      Author: cameron
  */
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "BoardGenerator.h"
 #include <stdio.h>
