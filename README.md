@@ -5,12 +5,12 @@ Cameron Cross 7193432 AI Assignment 1
 
 Features:
 - GEN option to generate a board
+- DFS optionally takes a depth limit
 
 Bugs:
-
-- DFS and GBFS dont correctly check for states in its history, 
-  only that the state has been seen before with a lower cost.
-  This is faster and nearly the same thing.
+- DFS has a depth limit, so if the number of moves to get to the end is < (width*height)^2. 
+  Lowering this value manually will result in a faster fix. Increasing this value will 
+  increase find time and also results in a worse result.
 - 
 
 Missing:
