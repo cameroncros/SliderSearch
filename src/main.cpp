@@ -101,13 +101,13 @@ searchtype getSearchType(char *methodstr) {
 }
 
 void printusage(char *progname) {
-	printf("Usage: %s [filename] [method]\n"
+	printf("Usage: %s [filename] [method] \n"
 			"       %s [filename] GEN [width] [height] [numberOfMoves]\n"
 			"Methods:\n"
 			"DFS: Depth First Search\n"
 			"BFS: Breadth First Search\n"
-			"GBFS:\n"
-			"AS:\n"
+			"GBFS: Greedy Best First Search\n"
+			"AS: A Star\n"
 			"CUS1: Uninformed Search\n"
 			"CUS2: Informed Search\n\n"
 			"GEN: Generate a random puzzle with maximum solution of [numberOfMoves]", progname, progname);
