@@ -42,6 +42,8 @@ public:
 	state *finalState;
 	std::vector<state*> allStates; //used to keep track of all the new states so that they can be freed correctly.
 	state *foundState;
+	int createdStates;
+	int deletedStates;
 
 	virtual ~TreeSearch();
 	TreeSearch();

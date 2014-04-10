@@ -22,6 +22,8 @@ TreeSearch::TreeSearch() {
 	foundState=NULL;
 	width=-1;
 	height=-1;
+	createdStates=0;
+	deletedStates=0;
 	// TODO Auto-generated constructor stub
 
 }
@@ -80,7 +82,7 @@ void TreeSearch::loadFile(char *filename) {
 	}
 	initialState->fingerprint=fingerprintState(initialState);
 	finalState->fingerprint=fingerprintState(finalState);
-
+	createdStates+=2;
 }
 
 /**
@@ -88,6 +90,7 @@ void TreeSearch::loadFile(char *filename) {
  */
 state *TreeSearch::getNextState(const state *parent, move dir) {
 	state *temp = new state;
+	createdStates++;
 	int row=-1, col=-1;
 
 	temp->board = new char*[height];
@@ -152,6 +155,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	temp->mv=dir;
 	temp->cost=rateState(temp, finalState);
 	temp->fingerprint=fingerprintState(temp);
+
 	return temp;
 }
 
@@ -162,7 +166,7 @@ std::string TreeSearch::fingerprintState(state *st) {
 	std::ostringstream fingerprint;
 	int totalvals = width*height;
 	for (int i=0; i < totalvals; i++) {
-		fingerprint << st->board[i/width][i%width] << ";";
+		fingerprint << (int)st->board[i/width][i%width] << ";";
 	}
 	return fingerprint.str();
 }
@@ -180,6 +184,7 @@ void TreeSearch::prettyPrintState(const state *st) {
 }
 
 void TreeSearch::deleteState(state* st) {
+	deletedStates++;
 	if (st == NULL) {
 		return;
 	}
@@ -190,6 +195,7 @@ void TreeSearch::deleteState(state* st) {
 		delete(st->board);
 	}
 	delete(st);
+
 }
 
 
