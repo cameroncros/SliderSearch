@@ -12,8 +12,7 @@ DepthFirstSearch::DepthFirstSearch(char *fname) {
 	filename = fname;
 	loadFile(fname);
 	foundState = NULL;
-	newStates.push(initialState);
-	depthLimit = 16;
+	depthLimit = (width*height)*(width*height);
 	// TODO Auto-generated constructor stub
 
 }
@@ -51,16 +50,7 @@ bool DepthFirstSearch::evaluateState(state *workingState) {
 		}
 	}
 
-	//			std::map<std::string, state* >::iterator past = discoveredStates.find(workingState->fingerprint);
-	//
-	//			if (past != discoveredStates.end() && (*past).second->depth < workingState->depth) {
-	//				//this state has occured before with less cost, it is not certain that this is in the same tree,
-	//				//but it is faster than recursing up a huge tree comparing fingerprints
-	//				continue;
-	//			} else {
-	//				discoveredStates.insert(std::pair<std::string, state*>(workingState->fingerprint, workingState));
-	//
-	//			}
+
 
 
 	//discover possible next states.

@@ -17,8 +17,6 @@
 
 class DepthFirstSearch: public TreeSearch {
 private:
-	std::stack<state*> newStates; //used to list all the new states so that they can be iterated correctly.
-	std::map<std::string, state*> discoveredStates; //used to check if we have hit this state before.
 	int depthLimit;
 public:
 	DepthFirstSearch(char *filename);

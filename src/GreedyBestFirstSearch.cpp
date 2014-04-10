@@ -13,7 +13,7 @@ GreedyBestFirstSearch::GreedyBestFirstSearch(char *fname) {
 	filename = fname;
 	loadFile(fname);
 	foundState = NULL;
-	newStates.push_back(initialState);
+	depthLimit = (width*height)*(width*height);
 	// TODO Auto-generated constructor stub
 
 }
@@ -23,76 +23,94 @@ GreedyBestFirstSearch::~GreedyBestFirstSearch() {
 }
 
 void GreedyBestFirstSearch::run() {
-	int bestIterator;
-	while (foundState == NULL) {
-		state *temp;
-		state *workingState;
-		std::string finger;
+	evaluateState(initialState);
+}
 
+bool GreedyBestFirstSearch::evaluateState(state *workingState) {
+	state *up, *down, *left, *right;
 
-		//get next state to test
-		int depth = newStates[newStates.size()-1]->depth;
-		int best = std::numeric_limits<int>::max();
-		for (int i = newStates.size()-1; i >= 0; i--) {
-			if (newStates[i]->depth != depth) {
-				break;
-			}
-			if (newStates[i]->cost <= best) {
-				best = newStates[i]->cost;
-				bestIterator = i;
-			}
-
-		}
-
-		workingState = newStates[bestIterator];
-		newStates.erase(newStates.begin()+bestIterator);
-
-		//check if we are at end;
-		if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
-			foundState = workingState;
-			continue;
-		}
-
-		//check if state has been seen before
-		std::map<std::string, state* >::iterator past = discoveredStates.find(workingState->fingerprint);
-
-				if (past != discoveredStates.end() && (*past).second->depth < workingState->depth) {
-					//this state has occured before with less cost, it is not certain that this is in the same tree,
-					//but it is faster than recursing up a huge tree comparing fingerprints
-					continue;
-				} else {
-					discoveredStates.insert(std::pair<std::string, state*>(workingState->fingerprint, workingState));
-				}
-
-
-		//discover possible next states.
-		temp = getNextState(workingState, RIGHT);
-		if (temp != NULL) {
-			allStates.push_back(temp);
-			newStates.push_back(temp);
-		}
-		temp = getNextState(workingState, DOWN);
-		if (temp != NULL) {
-			allStates.push_back(temp);
-			newStates.push_back(temp);
-		}
-		temp = getNextState(workingState, LEFT);
-		if (temp != NULL) {
-			allStates.push_back(temp);
-			newStates.push_back(temp);
-		}
-		temp = getNextState(workingState, UP);
-		if (temp != NULL) {
-			allStates.push_back(temp);
-			newStates.push_back(temp);
-		}
-
-
-
-
+	//check if we are at end;
+	if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
+		foundState = workingState;
+		return true;
 	}
+
+	//check if we are getting too deep
+	if (workingState->depth > depthLimit) {
+		return false;
+	}
+
+	//check if current state exists in history
+	const state *tempState = workingState;
+	while (tempState->parent != NULL) {
+		tempState = tempState->parent;
+		if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
+			return false;
+			break;
+		}
+	}
+
+
+
+
+	//discover possible next states.
+	up = getNextState(workingState, UP);
+	left = getNextState(workingState, LEFT);
+	down = getNextState(workingState, DOWN);
+	right = getNextState(workingState, RIGHT);
+
+	int numTests = 0;
+	if (up == NULL) {
+		numTests++;
+	}
+	if (down == NULL) {
+		numTests++;
+	}
+	if (left == NULL) {
+		numTests++;
+	}
+	if (right == NULL) {
+		numTests++;
+	}
+	int testDepth=0;
+	while (numTests < 4) {
+		if (up != NULL && up->cost == testDepth) {
+			if (evaluateState(up) == true) {
+				return true;
+			} else {
+				deleteState(up);
+				numTests++;
+			}
+		}
+		if (left != NULL && left->cost == testDepth) {
+			if (evaluateState(left) == true) {
+				return true;
+			} else {
+				deleteState(left);
+				numTests++;
+			}
+		}
+		if (down != NULL && down->cost == testDepth) {
+			if (evaluateState(down) == true) {
+				return true;
+			} else {
+				deleteState(down);
+				numTests++;
+			}
+		}
+		if (right != NULL && right->cost == testDepth) {
+			if (evaluateState(right) == true) {
+				return true;
+			} else {
+				deleteState(right);
+				numTests++;
+			}
+		}
+		testDepth++;
+	}
+	return false;
 }
 
 void GreedyBestFirstSearch::print() {
-	TreeSearch::print("GBFS", allStates.size());
+	TreeSearch::print("GBFS", createdStates-deletedStates);
 }
