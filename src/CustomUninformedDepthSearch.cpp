@@ -8,7 +8,7 @@
 #include "CustomUniformedDepthSearch.h"
 #include <iostream>
 
-CustomUniformedDepthSearch::CustomUniformedDepthSearch(char *fname) {
+CustomUninformedDepthSearch::CustomUninformedDepthSearch(char *fname) {
 	filename = fname;
 	loadFile(fname);
 	foundState = NULL;
@@ -17,19 +17,19 @@ CustomUniformedDepthSearch::CustomUniformedDepthSearch(char *fname) {
 
 }
 
-CustomUniformedDepthSearch::~CustomUniformedDepthSearch() {
+CustomUninformedDepthSearch::~CustomUninformedDepthSearch() {
 	// TODO Auto-generated destructor stub
 }
 
 
-void CustomUniformedDepthSearch::run() {
+void CustomUninformedDepthSearch::run() {
 	while (foundState == NULL) {
 	evaluateState(initialState);
 	depthLimit++;
 	}
 }
 
-bool CustomUniformedDepthSearch::evaluateState(state *workingState) {
+bool CustomUninformedDepthSearch::evaluateState(state *workingState) {
 	state *temp;
 
 	//check if we are at end;
@@ -84,6 +84,6 @@ bool CustomUniformedDepthSearch::evaluateState(state *workingState) {
 	return false;
 }
 
-void CustomUniformedDepthSearch::print() {
+void CustomUninformedDepthSearch::print() {
 	TreeSearch::print("DFS", foundState->depth);
 }

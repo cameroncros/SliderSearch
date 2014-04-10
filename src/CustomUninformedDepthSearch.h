@@ -15,12 +15,12 @@
 #include <stack>
 #include <string>
 
-class CustomUniformedDepthSearch: public TreeSearch {
+class CustomUninformedDepthSearch: public TreeSearch {
 private:
 	int depthLimit;
 public:
-	CustomUniformedDepthSearch(char *filename);
-	virtual ~CustomUniformedDepthSearch();
+	CustomUninformedDepthSearch(char *filename);
+	virtual ~CustomUninformedDepthSearch();
 	void run();
 	void print();
 
