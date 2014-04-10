@@ -5,7 +5,7 @@
  *      Author: cameron
  */
 
-#include "CustomUniformedDepthSearch.h"
+#include "CustomUninformedDepthSearch.h"
 #include <iostream>
 
 CustomUninformedDepthSearch::CustomUninformedDepthSearch(char *fname) {
