@@ -39,7 +39,7 @@ struct state {
 class TreeSearch {
 
 private:
-	void fingerprintState(state *st);
+	
 
 public:
 	int width;
@@ -65,6 +65,8 @@ public:
 	void deleteState(state *st);
 	int rateState(const state* given, const state* baseline);
 	bool compareState(const state *first, const state *second);
+
+	void fingerprintState(state *st);
 };
 
 #endif /* TREESEARCH_H_ */
