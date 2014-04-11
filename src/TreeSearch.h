@@ -20,14 +20,21 @@ enum move {
 	NOMV
 };
 
+struct fingerprint {
+	double val;
+	std::string finger;
+};
+
 struct state {
 	char cost;
 	char depth;
 	char **board;
 	const state *parent;
 	move mv;
-	std::string fingerprint;
+	fingerprint finger;
 };
+
+
 
 class TreeSearch {
 
@@ -57,6 +64,7 @@ public:
 	void prettyPrintState(const state *st);
 	void deleteState(state *st);
 	int rateState(const state* given, const state* baseline);
+	bool compareState(const state *first, const state *second);
 };
 
 #endif /* TREESEARCH_H_ */

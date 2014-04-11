@@ -45,20 +45,20 @@ void AStarSearch::run() {
 		newStates.erase(newStates.begin()+bestIterator);
 
 		//check if we are at end;
-		if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
+		if (compareState(workingState,finalState) == true) {
 			foundState = workingState;
 			continue;
 		}
 
 		//check if state has been seen before
-		std::map<std::string, state* >::iterator past = discoveredStates.find(workingState->fingerprint);
+		std::map<std::string, state* >::iterator past = discoveredStates.find(workingState->finger.finger);
 
 		if (past != discoveredStates.end() && (*past).second->depth < workingState->depth) {
 			//this state has occured before with less cost, it is not certain that this is in the same tree,
 			//but it is faster than recursing up a huge tree comparing fingerprints
 			continue;
 		} else {
-			discoveredStates.insert(std::pair<std::string, state*>(workingState->fingerprint, workingState));
+			discoveredStates.insert(std::pair<std::string, state*>(workingState->finger.finger, workingState));
 		}
 
 

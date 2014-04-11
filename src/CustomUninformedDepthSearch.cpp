@@ -33,7 +33,7 @@ bool CustomUninformedDepthSearch::evaluateState(state *workingState) {
 	state *temp;
 
 	//check if we are at end;
-	if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
+	if (compareState(workingState, finalState) == true) {
 		foundState = workingState;
 		return true;
 	}
@@ -47,7 +47,7 @@ bool CustomUninformedDepthSearch::evaluateState(state *workingState) {
 	const state *tempState = workingState;
 	while (tempState->parent != NULL) {
 		tempState = tempState->parent;
-		if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
+		if (compareState(tempState,workingState) == true) {
 			return false;
 			break;
 		}

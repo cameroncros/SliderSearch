@@ -42,7 +42,6 @@ void TreeSearch::loadFile(char *filename) {
 	initialState = new state;
 	initialState->cost=0;
 	initialState->depth=0;
-	initialState->fingerprint="";
 	initialState->mv=NOMV;
 	initialState->parent=NULL;
 
@@ -53,7 +52,6 @@ void TreeSearch::loadFile(char *filename) {
 	finalState = new state;
 	finalState->cost=0;
 	finalState->depth=0;
-	finalState->fingerprint="";
 	finalState->mv=NOMV;
 	finalState->parent=NULL;
 	finalState->board = new char*[height];
@@ -75,8 +73,8 @@ void TreeSearch::loadFile(char *filename) {
 			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
 		}
 	}
-	initialState->fingerprint=fingerprintState(initialState);
-	finalState->fingerprint=fingerprintState(finalState);
+	fingerprintState(initialState);
+	fingerprintState(finalState);
 	createdStates+=2;
 }
 
@@ -149,7 +147,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 	temp->depth=parent->depth+1;
 	temp->mv=dir;
 	temp->cost=rateState(temp, finalState);
-	temp->fingerprint=fingerprintState(temp);
+	fingerprintState(temp);
 
 	return temp;
 }
@@ -158,13 +156,28 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
  * Returns a string unique to the state.
  */
 std::string TreeSearch::fingerprintState(state *st) {
+	st->finger.val = 0;
 	std::ostringstream fingerprint;
 	int totalvals = width*height;
-	for (int i=0; i < totalvals; i++) {
-		fingerprint << (int)st->board[i/width][i%width] << ";";
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			st->finger.val = (st->finger.val * totalvals) +st->board[i][j];
+			fingerprint << (int)st->board[i][j] << ";";
+		}
 	}
-	return fingerprint.str();
+	st->finger.finger = fingerprint.str();
 }
+
+bool TreeSearch::compareState(const state *first, const state *second) {
+	if (first->finger.val != second->finger.val) {
+		return false;
+	}
+	if (first->finger.finger == second->finger.finger) {
+		return true;
+	} else {
+		return false;
+	}
+ }
 
 void TreeSearch::prettyPrintState(const state *st) {
 	std::cout << "Move: " << st->mv << std::endl;

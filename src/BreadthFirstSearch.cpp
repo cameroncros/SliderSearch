@@ -36,7 +36,7 @@ void BreadthFirstSearch::run() {
 
 
 		//check if we are at end;
-		if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
+		if (compareState(workingState, finalState) == true) {
 			foundState = workingState;
 			continue;
 		}
@@ -46,7 +46,7 @@ void BreadthFirstSearch::run() {
 		const state *tempState = workingState;
 		while (tempState->parent != NULL) {
 			tempState = tempState->parent;
-			if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
+			if (compareState(tempState,workingState) == true) {
 				duplicate = true;
 				break;
 			}

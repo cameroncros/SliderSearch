@@ -30,7 +30,7 @@ bool GreedyBestFirstSearch::evaluateState(state *workingState) {
 	state *up, *down, *left, *right;
 
 	//check if we are at end;
-	if (workingState->fingerprint.compare(finalState->fingerprint) == 0) {
+	if (compareState(workingState, finalState) == true) {
 		foundState = workingState;
 		return true;
 	}
@@ -44,9 +44,8 @@ bool GreedyBestFirstSearch::evaluateState(state *workingState) {
 	const state *tempState = workingState;
 	while (tempState->parent != NULL) {
 		tempState = tempState->parent;
-		if (tempState->fingerprint.compare(workingState->fingerprint) == 0) {
+		if (compareState(tempState, workingState) == true) {
 			return false;
-			break;
 		}
 	}
 

@@ -75,6 +75,6 @@ void BoardGenerator::run() {
 void BoardGenerator::print() {
 	std::cout << width << std::endl
 			<< height << std::endl
-			<< initialState->fingerprint <<std::endl
-			<< finalState->fingerprint << std::endl;
+			<< initialState->finger.finger <<std::endl
+			<< finalState->finger.finger << std::endl;
 }
