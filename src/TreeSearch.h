@@ -39,7 +39,7 @@ struct state {
 class TreeSearch {
 
 private:
-	std::string fingerprintState(state *st);
+	void fingerprintState(state *st);
 
 public:
 	int width;

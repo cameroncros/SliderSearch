@@ -155,7 +155,7 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 /**
  * Returns a string unique to the state.
  */
-std::string TreeSearch::fingerprintState(state *st) {
+void TreeSearch::fingerprintState(state *st) {
 	st->finger.val = 0;
 	std::ostringstream fingerprint;
 	int totalvals = width*height;
