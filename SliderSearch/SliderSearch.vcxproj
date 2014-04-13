@@ -75,6 +75,7 @@
     <ClCompile Include="..\src\CustomUninformedDepthSearch.cpp" />
     <ClCompile Include="..\src\DepthFirstSearch.cpp" />
     <ClCompile Include="..\src\GreedyBestFirstSearch.cpp" />
+    <ClCompile Include="..\src\LengthFinder.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\TreeSearch.cpp" />
   </ItemGroup>
@@ -86,6 +87,7 @@
     <ClInclude Include="..\src\CustomUninformedDepthSearch.h" />
     <ClInclude Include="..\src\DepthFirstSearch.h" />
     <ClInclude Include="..\src\GreedyBestFirstSearch.h" />
+    <ClInclude Include="..\src\LengthFinder.h" />
     <ClInclude Include="..\src\main.h" />
     <ClInclude Include="..\src\TreeSearch.h" />
   </ItemGroup>
