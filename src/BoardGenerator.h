@@ -19,7 +19,7 @@ class BoardGenerator: public TreeSearch {
 private:
 	int numMoves;
 public:
-	BoardGenerator(char *filename, char* width, char* height, char* numberOfMoves);
+	BoardGenerator(const char *filename, char* width, char* height, char* numberOfMoves);
 	virtual ~BoardGenerator();
 
 	void run();

@@ -12,6 +12,7 @@
 #include "CustomInformedSearch.h"
 #include "AStarSearch.h"
 
+#include "LengthFinder.h"
 #include "BoardGenerator.h"
 
 int main(int argc, char **argv) {
@@ -48,6 +49,9 @@ int main(int argc, char **argv) {
 	case GEN:
 		search = new BoardGenerator(argv[1], argv[3], argv[4], argv[5]);
 		break;
+	case LEN:
+		search = new LengthFinder(argv[1], argv[3], argv[4], argv[5]);
+
 	}
 	if (search != NULL) {
 		search->run();
@@ -105,6 +109,12 @@ searchtype getSearchType(char *methodstr) {
 	}
 	if (strncmp("gen", methodstr, 4) == 0) {
 		return GEN;
+	}
+	if (strncmp("LEN", methodstr, 4) == 0) {
+		return LEN;
+	}
+	if (strncmp("len", methodstr, 4) == 0) {
+		return LEN;
 	}
 	return INVALID;
 }

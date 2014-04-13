@@ -14,7 +14,7 @@
 #include <fstream>
 
 
-BoardGenerator::BoardGenerator(char* fname, char* w, char* h,
+BoardGenerator::BoardGenerator(const char* fname, char* w, char* h,
 		char* numberOfMoves) {
 	sscanf(w, "%i", &width);
 	sscanf(h, "%i", &height);
@@ -111,7 +111,7 @@ void BoardGenerator::print() {
 			<< finalState->finger.finger << std::endl <<std::endl;
 
 	std::fstream file;
-	file.open(filename, std::fstream::out);
+	file.open(filename.c_str(), std::fstream::out);
 
 	file << height << std::endl
 		<< width << std::endl

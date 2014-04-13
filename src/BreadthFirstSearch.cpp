@@ -9,7 +9,7 @@
 #include <iostream>
 #include <sstream>
 
-BreadthFirstSearch::BreadthFirstSearch(char *fname) {
+BreadthFirstSearch::BreadthFirstSearch(const char *fname) {
 	filename = fname;
 	loadFile(fname);
 	foundState = NULL;
@@ -25,6 +25,7 @@ BreadthFirstSearch::~BreadthFirstSearch() {
 
 void BreadthFirstSearch::run() {
 	while (foundState == NULL) {
+
 		state *temp;
 		std::string finger;
 		state *workingState;
@@ -34,6 +35,7 @@ void BreadthFirstSearch::run() {
 		workingState = newStates.front();
 		newStates.pop();
 
+		prettyPrintState(workingState);
 
 		//check if we are at end;
 		if (compareState(workingState, finalState) == true) {

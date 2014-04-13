@@ -57,8 +57,9 @@ public:
 	virtual void run()=0;
 	virtual void print()=0;
 	void print(const char *str, int numbernodes);
+	int depth();
 
-	void loadFile(char *filename);
+	void loadFile(const char *filename);
 	state *getNextState(const state *parent, move dir);
 
 	void prettyPrintState(const state *st);

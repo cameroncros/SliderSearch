@@ -19,7 +19,7 @@ class BreadthFirstSearch: public TreeSearch {
 private:
 	std::queue<state*> newStates; //used to list all the new states so that they can be iterated correctly.
 public:
-	BreadthFirstSearch(char *filename);
+	BreadthFirstSearch(const char *filename);
 	virtual ~BreadthFirstSearch();
 	void run();
 	void print();

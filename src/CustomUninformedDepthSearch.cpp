@@ -8,7 +8,7 @@
 #include "CustomUninformedDepthSearch.h"
 #include <iostream>
 
-CustomUninformedDepthSearch::CustomUninformedDepthSearch(char *fname) {
+CustomUninformedDepthSearch::CustomUninformedDepthSearch(const char *fname) {
 	filename = fname;
 	loadFile(fname);
 	foundState = NULL;

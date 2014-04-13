@@ -19,7 +19,7 @@ class CustomUninformedDepthSearch: public TreeSearch {
 private:
 	int depthLimit;
 public:
-	CustomUninformedDepthSearch(char *filename);
+	CustomUninformedDepthSearch(const char *filename);
 	virtual ~CustomUninformedDepthSearch();
 	void run();
 	void print();

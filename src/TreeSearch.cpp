@@ -29,11 +29,11 @@ TreeSearch::TreeSearch() {
 
 }
 
-void TreeSearch::loadFile(char *filename) {
+void TreeSearch::loadFile(const char *filename) {
 	int tempval;
 	FILE *fp = fopen(filename, "r");
 	if (fp == NULL) {
-		exit(0);
+		exit(1);
 		perror("Failed to open file:");
 	}
 	fscanf(fp, "%i", &height);
@@ -73,6 +73,7 @@ void TreeSearch::loadFile(char *filename) {
 			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
 		}
 	}
+	fclose(fp);
 	fingerprintState(initialState);
 	fingerprintState(finalState);
 	createdStates+=2;
@@ -288,4 +289,11 @@ void TreeSearch::print(const char *str, int numbernodes) {
 		moves = "Failed to find path";
 	}
 	std::cout << numbernodes << " " << moves << std::endl;
+}
+
+int TreeSearch::depth() {
+	if (foundState != NULL) {
+		return foundState->depth;
+	}
+	return -1;
 }
