@@ -105,16 +105,16 @@ void BoardGenerator::run() {
 
 
 void BoardGenerator::print() {
-	std::cout << width << std::endl
-			<< height << std::endl
+	std::cout << height << std::endl
+			<< width << std::endl
 			<< initialState->finger.finger <<std::endl
 			<< finalState->finger.finger << std::endl <<std::endl;
 
 	std::fstream file;
 	file.open(filename, std::fstream::out);
 
-	file << width << std::endl
-		<< height << std::endl
+	file << height << std::endl
+		<< width << std::endl
 		<< initialState->finger.finger << std::endl
 		<< finalState->finger.finger;
 	file.close();
