@@ -13,11 +13,11 @@
 #include <vector>
 
 enum move {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	NOMV
+	UP = 0b0001,
+	DOWN = 0b0010,
+	LEFT = 0b0100,
+	RIGHT = 0b1000,
+	NOMV = 0b0000
 };
 
 struct fingerprint {
@@ -30,6 +30,7 @@ struct state {
 	char depth;
 	char **board;
 	const state *parent;
+	char childMoves;
 	move mv;
 	fingerprint finger;
 };

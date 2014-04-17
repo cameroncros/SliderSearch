@@ -10,14 +10,13 @@
 
 #include "TreeSearch.h"
 #include "main.h"
-#include <map>
-#include <vector>
 #include <stack>
 #include <string>
 
 class DepthFirstSearch: public TreeSearch {
 private:
 	int depthLimit;
+	std::stack<state *> nextState;
 public:
 	DepthFirstSearch(char *filename);
 	virtual ~DepthFirstSearch();

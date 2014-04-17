@@ -44,6 +44,7 @@ void TreeSearch::loadFile(const char *filename) {
 	initialState->depth=0;
 	initialState->mv=NOMV;
 	initialState->parent=NULL;
+	initialState->childMoves=0;
 
 	initialState->board = new char*[height];
 	for (int i=0; i < height; i++) {
@@ -54,6 +55,8 @@ void TreeSearch::loadFile(const char *filename) {
 	finalState->depth=0;
 	finalState->mv=NOMV;
 	finalState->parent=NULL;
+	finalState->childMoves=0;
+
 	finalState->board = new char*[height];
 	for (int i=0; i < height; i++) {
 		finalState->board[i] = new char[width];
@@ -142,12 +145,13 @@ state *TreeSearch::getNextState(const state *parent, move dir) {
 		}
 		break;
 	case NOMV:
-		break; //shouldnt happen, this code juyst prevents the compiler warning
+		break; //shouldnt happen, this code just prevents the compiler warning
 	}
 	temp->parent=parent;
 	temp->depth=parent->depth+1;
 	temp->mv=dir;
 	temp->cost=rateState(temp, finalState);
+	temp->childMoves=0;
 	fingerprintState(temp);
 
 	return temp;
@@ -184,7 +188,7 @@ void TreeSearch::prettyPrintState(const state *st) {
 	std::cout << "Move: " << st->mv << std::endl;
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
-			std::cout << st->board[i][j] << " ";
+			std::cout << (int)st->board[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}

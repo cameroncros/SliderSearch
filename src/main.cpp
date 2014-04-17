@@ -14,6 +14,7 @@
 
 #include "LengthFinder.h"
 #include "BoardGenerator.h"
+#include "DepthFirstLimitedSearch.h"
 
 int main(int argc, char **argv) {
 	searchtype method;
@@ -51,6 +52,10 @@ int main(int argc, char **argv) {
 		break;
 	case LEN:
 		search = new LengthFinder(argv[1], argv[3], argv[4], argv[5]);
+		break;
+	case DFLS:
+		search = new DepthFirstLimitedSearch(argv[1]);
+		break;
 
 	}
 	if (search != NULL) {
@@ -115,6 +120,12 @@ searchtype getSearchType(char *methodstr) {
 	}
 	if (strncmp("len", methodstr, 4) == 0) {
 		return LEN;
+	}
+	if (strncmp("DFLS", methodstr, 3) == 0) {
+		return DFLS;
+	}
+	if (strncmp("dfls", methodstr, 3) == 0) {
+		return DFLS;
 	}
 	return INVALID;
 }
