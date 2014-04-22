@@ -9,20 +9,22 @@
 #define GREEDYBESTFIRSTSEARCH_H_
 
 #include "TreeSearch.h"
-#include <deque>
+#include <stack>
 #include <map>
 #include <string>
 
 class GreedyBestFirstSearch: public TreeSearch {
 private:
 	int depthLimit;
+	std::stack<state *> nextState;
 public:
 	GreedyBestFirstSearch(char *fname);
 	virtual ~GreedyBestFirstSearch();
 	void run();
 	void print();
 
-	bool evaluateState(state *workingState);
+
+
 };
 
 #endif /* GREEDYBESTFIRSTSEARCH_H_ */

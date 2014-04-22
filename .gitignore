@@ -1,1 +1,15 @@
 /Debug
+
+*.prefs
+*.psess
+*.opensdf
+*.sdf
+*.obj
+*.log
+*.tlog
+*.idb
+*.pdb
+*.vsp
+*.suo
+*.user
+input/temp.txt

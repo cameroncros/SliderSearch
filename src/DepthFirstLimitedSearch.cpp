@@ -82,5 +82,5 @@ bool DepthFirstLimitedSearch::evaluateState(state *workingState) {
 }
 
 void DepthFirstLimitedSearch::print() {
-	TreeSearch::print("DFS", foundState->depth);
+	TreeSearch::print("DFS", createdStates);
 }

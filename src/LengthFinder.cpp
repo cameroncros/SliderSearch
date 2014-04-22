@@ -52,6 +52,5 @@ void LengthFinder::run() {
 
 void LengthFinder::print() {
 	std::cout << max << std::endl;
-
 }
 

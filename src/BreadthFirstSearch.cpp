@@ -35,8 +35,6 @@ void BreadthFirstSearch::run() {
 		workingState = newStates.front();
 		newStates.pop();
 
-		prettyPrintState(workingState);
-
 		//check if we are at end;
 		if (compareState(workingState, finalState) == true) {
 			foundState = workingState;
@@ -83,5 +81,5 @@ void BreadthFirstSearch::run() {
 }
 
 void BreadthFirstSearch::print() {
-	TreeSearch::print("BFS", allStates.size());
+	TreeSearch::print("BFS", createdStates);
 }

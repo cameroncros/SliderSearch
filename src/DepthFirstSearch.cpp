@@ -34,7 +34,7 @@ void DepthFirstSearch::run() {
 			continue;
 		}
 		//check if all lower states are checked
-		if (workingState->childMoves == 0b1111) {
+		if (workingState->childMoves == 15 /*0b1111*/) {
 			nextState.pop();
 			continue;
 		}
@@ -49,12 +49,6 @@ void DepthFirstSearch::run() {
 			if (compareState(workingState,finalState) == true) {
 				foundState = workingState;
 				return;
-			}
-
-			//check if we are getting too deep
-			if (workingState->depth > depthLimit) {
-				nextState.pop();
-				continue;
 			}
 
 			//check if current state exists in history
@@ -94,5 +88,5 @@ void DepthFirstSearch::run() {
 }
 
 void DepthFirstSearch::print() {
-	TreeSearch::print("DFS", foundState->depth);
+	TreeSearch::print("DFS", createdStates);
 }

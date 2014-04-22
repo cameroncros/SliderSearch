@@ -73,6 +73,7 @@
     <ClCompile Include="..\src\BreadthFirstSearch.cpp" />
     <ClCompile Include="..\src\CustomInformedSearch.cpp" />
     <ClCompile Include="..\src\CustomUninformedDepthSearch.cpp" />
+    <ClCompile Include="..\src\DepthFirstLimitedSearch.cpp" />
     <ClCompile Include="..\src\DepthFirstSearch.cpp" />
     <ClCompile Include="..\src\GreedyBestFirstSearch.cpp" />
     <ClCompile Include="..\src\LengthFinder.cpp" />
@@ -85,11 +86,15 @@
     <ClInclude Include="..\src\BreadthFirstSearch.h" />
     <ClInclude Include="..\src\CustomInformedSearch.h" />
     <ClInclude Include="..\src\CustomUninformedDepthSearch.h" />
+    <ClInclude Include="..\src\DepthFirstLimitedSearch.h" />
     <ClInclude Include="..\src\DepthFirstSearch.h" />
     <ClInclude Include="..\src\GreedyBestFirstSearch.h" />
     <ClInclude Include="..\src\LengthFinder.h" />
     <ClInclude Include="..\src\main.h" />
     <ClInclude Include="..\src\TreeSearch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.cproject" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

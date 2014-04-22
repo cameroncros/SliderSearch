@@ -13,15 +13,15 @@
 #include <vector>
 
 enum move {
-	UP = 0b0001,
-	DOWN = 0b0010,
-	LEFT = 0b0100,
-	RIGHT = 0b1000,
-	NOMV = 0b0000
+	UP = 1<<0,
+	DOWN = 1<<1,
+	LEFT = 1<<2,
+	RIGHT = 1<<3,
+	NOMV = 0
 };
 
 struct fingerprint {
-	double val;
+	long val;
 	std::string finger;
 };
 

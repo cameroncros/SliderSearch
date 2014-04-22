@@ -29,23 +29,20 @@ void CustomInformedSearch::run() {
 
 	int bestIterator;
 	while (foundState == NULL) {
-
-
-
 		//get next state to test
 		int best = std::numeric_limits<int>::max();
-		for (int i = newStates.size()-1; i >= 0; i--) {
-			if (newStates[i]->cost + newStates[i]->depth <= best) {
+		for (int i = newStates.size() - 1; i >= 0; i--) {
+			if (newStates[i]->depth <= best) {
 				best = newStates[i]->cost + newStates[i]->depth;
 				bestIterator = i;
 			}
 		}
 
 		workingState = newStates[bestIterator];
-		newStates.erase(newStates.begin()+bestIterator);
+		newStates.erase(newStates.begin() + bestIterator);
 
 		//check if we are at end;
-		if (compareState(workingState,finalState) == true) {
+		if (compareState(workingState, finalState) == true) {
 			foundState = workingState;
 			continue;
 		}
@@ -57,7 +54,8 @@ void CustomInformedSearch::run() {
 			//this state has occured before with less cost, it is not certain that this is in the same tree,
 			//but it is faster than recursing up a huge tree comparing fingerprints
 			continue;
-		} else {
+		}
+		else {
 			discoveredStates.insert(std::pair<std::string, state*>(workingState->finger.finger, workingState));
 		}
 
@@ -65,37 +63,24 @@ void CustomInformedSearch::run() {
 		//discover possible next states.
 		temp = getNextState(workingState, RIGHT);
 		if (temp != NULL) {
-			temp->depth=rateState(temp, initialState);
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, DOWN);
 		if (temp != NULL) {
-			temp->depth=rateState(temp, initialState);
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, LEFT);
 		if (temp != NULL) {
-			temp->depth=rateState(temp, initialState);
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, UP);
 		if (temp != NULL) {
-			temp->depth=rateState(temp, initialState);
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
-
-
-
-
-
 	}
 }
 

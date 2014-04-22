@@ -45,6 +45,9 @@
     <ClCompile Include="..\src\LengthFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\DepthFirstLimitedSearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\LengthFinder.h">
@@ -77,5 +80,11 @@
     <ClInclude Include="..\src\TreeSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\DepthFirstLimitedSearch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.cproject" />
   </ItemGroup>
 </Project>

@@ -28,6 +28,8 @@ void AStarSearch::run() {
 	std::string finger;
 
 	int bestIterator;
+
+	
 	while (foundState == NULL) {
 
 
@@ -65,25 +67,21 @@ void AStarSearch::run() {
 		//discover possible next states.
 		temp = getNextState(workingState, RIGHT);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, DOWN);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, LEFT);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
 		temp = getNextState(workingState, UP);
 		if (temp != NULL) {
-			temp->cost=rateState(temp, finalState);
 			allStates.push_back(temp);
 			newStates.push_back(temp);
 		}
