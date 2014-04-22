@@ -91,62 +91,6 @@ void DepthFirstSearch::run() {
 
 
 	}
-	evaluateState(initialState);
-}
-
-bool DepthFirstSearch::evaluateState(state *workingState) {
-	state *temp;
-
-	//check if we are at end;
-	if (compareState(workingState,finalState) == true) {
-		foundState = workingState;
-		return true;
-	}
-
-	//check if we are getting too deep
-	if (workingState->depth > depthLimit) {
-		return false;
-	}
-
-	//check if current state exists in history
-	const state *tempState = workingState;
-	while (tempState->parent != NULL) {
-		tempState = tempState->parent;
-		if (compareState(tempState,workingState) == true) {
-			return false;
-			break;
-		}
-	}
-
-
-
-
-	//discover possible next states.
-	temp = getNextState(workingState, UP);
-	if (temp != NULL && evaluateState(temp) == true) {
-		return true;
-	} else {
-		deleteState(temp);
-	}
-	temp = getNextState(workingState, LEFT);
-	if (temp != NULL && evaluateState(temp) == true) {
-		return true;
-	} else {
-		deleteState(temp);
-	}
-	temp = getNextState(workingState, DOWN);
-	if (temp != NULL && evaluateState(temp) == true) {
-		return true;
-	} else {
-		deleteState(temp);
-	}
-	temp = getNextState(workingState, RIGHT);
-	if (temp != NULL && evaluateState(temp) == true) {
-		return true;
-	} else {
-		deleteState(temp);
-	}
-	return false;
 }
 
 void DepthFirstSearch::print() {
