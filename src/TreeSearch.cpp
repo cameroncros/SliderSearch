@@ -180,7 +180,6 @@ bool TreeSearch::compareState(const state *first, const state *second) {
 	if (first->finger.finger == second->finger.finger) {
 		return true;
 	} else {
-		std::cout << "False Positive" << std::endl;
 		return false;
 	}
  }
