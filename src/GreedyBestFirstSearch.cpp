@@ -23,6 +23,10 @@ GreedyBestFirstSearch::GreedyBestFirstSearch(char *fname) {
 }
 
 GreedyBestFirstSearch::~GreedyBestFirstSearch() {
+	while (allStates.size() != 0) {
+		deleteState(allStates.top());
+		allStates.pop();
+	}
 	// TODO Auto-generated destructor stub
 }
 
@@ -60,6 +64,11 @@ void GreedyBestFirstSearch::run() {
 		left = getNextState(workingState, LEFT);
 		down = getNextState(workingState, DOWN);
 		right = getNextState(workingState, RIGHT);
+		allStates.push(up);
+		allStates.push(left);
+		allStates.push(down);
+		allStates.push(right);
+
 
 		int low = 0;
 

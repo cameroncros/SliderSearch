@@ -16,6 +16,7 @@
 class DepthFirstSearch: public TreeSearch {
 private:
 	int depthLimit;
+	std::stack<state *> allStates;
 	std::stack<state *> nextState;
 public:
 	DepthFirstSearch(char *filename);

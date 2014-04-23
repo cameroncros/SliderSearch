@@ -19,7 +19,10 @@ DepthFirstSearch::DepthFirstSearch(char *fname) {
 }
 
 DepthFirstSearch::~DepthFirstSearch() {
-	// TODO Auto-generated destructor stub
+	while (allStates.size() != 0) {
+		deleteState(allStates.top());
+		allStates.pop();
+	}
 }
 
 
@@ -62,24 +65,33 @@ void DepthFirstSearch::run() {
 			}
 		}
 		//Get next move
+		state *temp;
 		if ((workingState->childMoves & UP) == 0) {
 			workingState->childMoves |= UP;
-			nextState.push(getNextState(workingState, UP));
+			temp = getNextState(workingState, UP);
+			nextState.push(temp);
+			allStates.push(temp);
 			continue;
 		}
 		if ((workingState->childMoves & LEFT) == 0) {
 			workingState->childMoves |= LEFT;
-			nextState.push(getNextState(workingState, LEFT));
+			temp = getNextState(workingState, LEFT);
+			nextState.push(temp);
+			allStates.push(temp);
 			continue;
 		}
 		if ((workingState->childMoves & DOWN) == 0) {
 			workingState->childMoves |= DOWN;
-			nextState.push(getNextState(workingState, DOWN));
+			temp = getNextState(workingState, DOWN);
+			nextState.push(temp);
+			allStates.push(temp);
 			continue;
 		}
 		if ((workingState->childMoves & RIGHT) == 0) {
 			workingState->childMoves |= RIGHT;
-			nextState.push(getNextState(workingState, RIGHT));
+			temp = getNextState(workingState, RIGHT);
+			nextState.push(temp);
+			allStates.push(temp);
 			continue;
 		}
 

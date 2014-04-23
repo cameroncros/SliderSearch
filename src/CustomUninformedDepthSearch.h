@@ -18,6 +18,8 @@
 class CustomUninformedDepthSearch: public TreeSearch {
 private:
 	int depthLimit;
+	std::stack<state *> allStates;
+	std::stack<state *> nextState;
 public:
 	CustomUninformedDepthSearch(const char *filename);
 	virtual ~CustomUninformedDepthSearch();
