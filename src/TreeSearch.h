@@ -69,6 +69,7 @@ public:
 	bool compareState(const state *first, const state *second);
 
 	void fingerprintState(state *st);
+	void cleanAllStates();
 };
 
 #endif /* TREESEARCH_H_ */

@@ -1,0 +1,311 @@
+/*
+ * TreeSearch.cpp
+ *
+ *  Created on: 22/03/2014
+ *      Author: cameron
+ */
+#define _CRT_SECURE_NO_WARNINGS
+
+#include "TreeSearch.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sstream>
+#include <algorithm>
+#include <iostream>
+
+TreeSearch::~TreeSearch() {
+	cleanAllStates();
+}
+
+TreeSearch::TreeSearch() {
+	initialState=NULL;
+	finalState=NULL;
+	foundState=NULL;
+	width=-1;
+	height=-1;
+	createdStates=0;
+	deletedStates=0;
+	// TODO Auto-generated constructor stub
+
+}
+
+void TreeSearch::loadFile(const char *filename) {
+	int tempval;
+	FILE *fp = fopen(filename, "r");
+	if (fp == NULL) {
+		exit(1);
+		perror("Failed to open file:");
+	}
+	fscanf(fp, "%i", &height);
+	fscanf(fp, "%i", &width);
+
+	initialState = new state;
+	initialState->cost=0;
+	initialState->depth=0;
+	initialState->mv=NOMV;
+	initialState->parent=NULL;
+	initialState->childMoves=0;
+
+	initialState->board = new char*[height];
+	for (int i=0; i < height; i++) {
+		initialState->board[i] = new char[width];
+	}
+	finalState = new state;
+	finalState->cost=0;
+	finalState->depth=0;
+	finalState->mv=NOMV;
+	finalState->parent=NULL;
+	finalState->childMoves=0;
+
+	finalState->board = new char*[height];
+	for (int i=0; i < height; i++) {
+		finalState->board[i] = new char[width];
+	}
+
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			fscanf(fp, "%i;", &tempval);
+			initialState->board[i][j]=tempval;
+			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
+		}
+	}
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			fscanf(fp, "%i;", &tempval);
+			finalState->board[i][j]=tempval;
+			//		printf("%i,%i - %i\n",i/width,i%width, tempval);
+		}
+	}
+	fclose(fp);
+	fingerprintState(initialState);
+	fingerprintState(finalState);
+	createdStates+=2;
+}
+
+/**
+ * Gets the next state for the given direction, Returns NULL if the move is invalid.
+ */
+state *TreeSearch::getNextState(const state *parent, move dir) {
+	state *temp = new state;
+	createdStates++;
+	int row=-1, col=-1;
+
+	temp->board = new char*[height];
+	for (int i=0; i < height; i++) {
+		temp->board[i] = new char[width];
+	}
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			temp->board[i][j]=parent->board[i][j];
+			if (parent->board[i][j] == 0) {
+				col=j;
+				row=i;
+			}
+		}
+	}
+	if (row==-1 || col == -1) {
+		throw "Could not find empty cell?"; //TODO: unsure if this is legal or what it will result in, dont really care.
+	}
+
+	switch (dir) {
+	case LEFT:
+		if (col == 0) {
+			deleteState(temp);
+			return NULL;
+		} else {
+			temp->board[row][col]=temp->board[row][col-1];
+			temp->board[row][col-1]=0;
+		}
+		break;
+	case RIGHT:
+		if (col == width-1) {
+			deleteState(temp);
+			return NULL;
+		} else {
+			temp->board[row][col]=temp->board[row][col+1];
+			temp->board[row][col+1]=0;
+		}
+		break;
+	case UP:
+		if (row == 0) {
+			deleteState(temp);
+			return NULL;
+		} else {
+			temp->board[row][col]=temp->board[row-1][col];
+			temp->board[row-1][col]=0;
+		}
+		break;
+	case DOWN:
+		if (row == height-1) {
+			deleteState(temp);
+			return NULL;
+		} else {
+			temp->board[row][col]=temp->board[row+1][col];
+			temp->board[row+1][col]=0;
+		}
+		break;
+	case NOMV:
+		break; //shouldnt happen, this code just prevents the compiler warning
+	}
+	temp->parent=parent;
+	temp->depth=parent->depth+1;
+	temp->mv=dir;
+	temp->cost=rateState(temp, finalState);
+	temp->childMoves=0;
+	fingerprintState(temp);
+
+	return temp;
+}
+
+/**
+ * Returns a string unique to the state.
+ */
+void TreeSearch::fingerprintState(state *st) {
+	st->finger.val = 0;
+	std::ostringstream fingerprint;
+	int totalvals = width*height;
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			st->finger.val = (st->finger.val * totalvals) +st->board[i][j];
+			fingerprint << (int)st->board[i][j] << ";";
+		}
+	}
+	st->finger.finger = fingerprint.str();
+}
+
+bool TreeSearch::compareState(const state *first, const state *second) {
+	if (first->finger.val != second->finger.val) {
+		return false;
+	}
+	if (first->finger.finger == second->finger.finger) {
+		return true;
+	} else {
+		return false;
+	}
+ }
+
+void TreeSearch::prettyPrintState(const state *st) {
+	std::cout << "Move: " << st->mv << std::endl;
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			std::cout << (int)st->board[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl << std::endl;
+
+}
+
+void TreeSearch::deleteState(state* st) {
+	deletedStates++;
+	if (st == NULL) {
+		return;
+	}
+	if (st->board != NULL) {
+		for (int i=0; i < height; i++) {
+			delete(st->board[i]);
+		}
+		delete(st->board);
+	}
+	delete(st);
+
+}
+
+
+/**
+ * This function ranks a state on the distance between the tiles in each state 0 is perfect -Not Admissable, but it was a decent first attempt?
+ */
+//int TreeSearch::rateState(const state* given, const state* baseline) {
+//	int tempValue; //value of the position we are searching for
+//	int sumDistances=0;
+//
+//	for (int xpos1 = 0; xpos1 < height; xpos1++) { //xposition of the value we are looking for
+//		for (int ypos1 = 0; ypos1 < width; ypos1++) { //yposition of the value we are looking for
+//			tempValue=given->board[xpos1][ypos1];
+//			for (int xpos2 = 0; xpos2 < height; xpos2++) { //xposition that the value is found at
+//				for (int ypos2 = 0; ypos2 < width; ypos2++) { //yposition that the value is found at
+//					if (baseline->board[xpos2][ypos2] == tempValue) {
+//						sumDistances += (((xpos1-xpos2)*(xpos1-xpos2))+((ypos1-ypos2)*(ypos1-ypos2))); //sqrt is expensive, dont bother as it doesnt affect the number meaningfully anyway
+//						goto jump; //not happy about this, but it is a fairly short jump and probably clearer as a goto than a seperate function+return
+//					}				//	 |
+//				}					//	 |
+//			}						//	 |
+//			jump:;					// <-|
+//		}
+//	}
+//	prettyPrintState(given);
+//	prettyPrintState(baseline);
+//	std::cout << sumDistances <<std::endl;
+//	return sumDistances;
+//}
+
+/**
+ * This function ranks a state on the Manhattan distance between the tiles in each state 0 is perfect
+ */
+int TreeSearch::rateState(const state* given, const state* baseline) {
+	int tempValue; //value of the position we are searching for
+	int sumDistances=0;
+
+	for (int xpos1 = 0; xpos1 < height; xpos1++) { //xposition of the value we are looking for
+		for (int ypos1 = 0; ypos1 < width; ypos1++) { //yposition of the value we are looking for
+			tempValue=given->board[xpos1][ypos1];
+			if (tempValue == 0) { //distance to zero not really useful, but I havent tested either way. Probably a fairly consistent scaling factor
+				continue;
+			}
+			for (int xpos2 = 0; xpos2 < height; xpos2++) { //xposition that the value is found at
+				for (int ypos2 = 0; ypos2 < width; ypos2++) { //yposition that the value is found at
+					if (baseline->board[xpos2][ypos2] == tempValue) {
+						sumDistances += ((xpos1-xpos2)+(ypos1-ypos2)); //sqrt is expensive, dont bother as it doesnt affect the number meaningfully anyway
+					}
+				}
+			}
+		}
+	}
+	return sumDistances;
+}
+
+void TreeSearch::print(const char *str, int numbernodes) {
+	std::cout << filename << " " << str << " ";
+	std::string moves;
+	if (foundState != NULL) {
+		const state *tempState = foundState;
+
+		while (tempState->parent != NULL) {
+			switch (tempState->mv) {
+			case UP:
+				moves = "Up;" +moves;
+				break;
+			case DOWN:
+				moves = "Down;" +moves;
+				break;
+			case LEFT:
+				moves = "Left;" +moves;
+				break;
+			case RIGHT:
+				moves = "Right;" +moves;
+				break;
+			case NOMV:
+				break; //shouldnt happen, this code juyst prevents the compiler warning
+			}
+			tempState = tempState->parent;
+		}
+	} else {
+		moves = "Failed to find path";
+	}
+	std::cout << numbernodes << std::endl << moves << std::endl;
+}
+
+int TreeSearch::depth() {
+	if (foundState != NULL) {
+		return foundState->depth;
+	}
+	return -1;
+}
+
+
+void TreeSearch::cleanAllStates() {
+	for (std::vector<state *>::iterator it = allStates.begin(); it != allStates.end(); ++it) {
+		deleteState(*it);
+	}
+	allStates.clear();
+}

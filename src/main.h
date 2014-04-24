@@ -12,8 +12,7 @@ enum searchtype {
 	CUS2,
 	INVALID,
 	GEN,
-	LEN,
-	DFLS
+	LEN
 };
 
 void printusage(char *progname);

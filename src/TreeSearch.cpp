@@ -14,7 +14,7 @@
 #include <iostream>
 
 TreeSearch::~TreeSearch() {
-	// TODO Auto-generated destructor stub
+	cleanAllStates();
 }
 
 TreeSearch::TreeSearch() {
@@ -273,16 +273,16 @@ void TreeSearch::print(const char *str, int numbernodes) {
 		while (tempState->parent != NULL) {
 			switch (tempState->mv) {
 			case UP:
-				moves = "UP; " +moves;
+				moves = "Up;" +moves;
 				break;
 			case DOWN:
-				moves = "DOWN; " +moves;
+				moves = "Down;" +moves;
 				break;
 			case LEFT:
-				moves = "LEFT; " +moves;
+				moves = "Left;" +moves;
 				break;
 			case RIGHT:
-				moves = "RIGHT; " +moves;
+				moves = "Right;" +moves;
 				break;
 			case NOMV:
 				break; //shouldnt happen, this code juyst prevents the compiler warning
@@ -292,7 +292,7 @@ void TreeSearch::print(const char *str, int numbernodes) {
 	} else {
 		moves = "Failed to find path";
 	}
-	std::cout << numbernodes << " " << moves << std::endl;
+	std::cout << numbernodes << std::endl << moves << std::endl;
 }
 
 int TreeSearch::depth() {
@@ -300,4 +300,12 @@ int TreeSearch::depth() {
 		return foundState->depth;
 	}
 	return -1;
+}
+
+
+void TreeSearch::cleanAllStates() {
+	for (std::vector<state *>::iterator it = allStates.begin(); it != allStates.end(); ++it) {
+		deleteState(*it);
+	}
+	allStates.clear();
 }

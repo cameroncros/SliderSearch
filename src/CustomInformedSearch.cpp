@@ -29,6 +29,10 @@ void CustomInformedSearch::run() {
 
 	int bestIterator;
 	while (foundState == NULL) {
+		if (newStates.size() == 0) {
+			return;
+		}
+
 		//get next state to test
 		int best = std::numeric_limits<int>::max();
 		for (int i = newStates.size() - 1; i >= 0; i--) {
@@ -85,5 +89,5 @@ void CustomInformedSearch::run() {
 }
 
 void CustomInformedSearch::print() {
-	TreeSearch::print("AS", allStates.size());
+	TreeSearch::print("CUS2", allStates.size());
 }
